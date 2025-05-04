@@ -15,9 +15,13 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Chad National School Digital Management System",
-  description: "A comprehensive digital management system for all schools in Chad",
-    generator: 'v0.dev'
-}
+  description:
+    "A comprehensive digital management system for all schools in Chad",
+  icons: {
+    icon: "/favicon.png", // path inside /public
+  },
+  generator: "v0.dev",
+};
 
 export default function RootLayout({
   children,
