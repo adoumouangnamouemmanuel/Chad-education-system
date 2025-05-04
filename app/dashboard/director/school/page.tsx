@@ -213,18 +213,19 @@ export default function DirectorSchoolProfilePage() {
             <CardContent className="pt-6">
               <div className="space-y-4">
                 <motion.div
-                  className="flex items-start gap-2"
+                  className="flex items-start gap-2 shadow-sm p-2 rounded-md bg-white border border-blue-100"
                   whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                                  
                 >
                   <MapPin className="h-5 w-5 text-blue-500 mt-0.5" />
-                  <div>
+                  <div >
                     <p>Avenue Charles de Gaulle</p>
                     <p>N'Djamena, Tchad</p>
                   </div>
                 </motion.div>
                 <motion.div
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 shadow-sm p-2 rounded-md bg-white border border-blue-100"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
@@ -232,7 +233,7 @@ export default function DirectorSchoolProfilePage() {
                   <p>+235 22 52 46 79</p>
                 </motion.div>
                 <motion.div
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 shadow-sm p-2 rounded-md bg-white border border-blue-100"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
@@ -240,7 +241,7 @@ export default function DirectorSchoolProfilePage() {
                   <p>lycee.national@education.td</p>
                 </motion.div>
                 <motion.div
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 shadow-sm p-2 rounded-md bg-white border border-blue-100"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
@@ -248,7 +249,7 @@ export default function DirectorSchoolProfilePage() {
                   <p>1,245 élèves inscrits</p>
                 </motion.div>
                 <motion.div
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 shadow-sm p-2 rounded-md bg-white border border-blue-100"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
@@ -256,7 +257,7 @@ export default function DirectorSchoolProfilePage() {
                   <p>78 enseignants</p>
                 </motion.div>
                 <motion.div
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 shadow-sm p-2 rounded-md bg-white border border-blue-100"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
