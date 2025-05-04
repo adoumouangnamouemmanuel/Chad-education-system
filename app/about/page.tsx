@@ -16,6 +16,7 @@ import {
   Award,
   CheckCircle,
   ChevronRight,
+  ArrowLeft,
 } from "lucide-react";
 
 export default function AboutPage() {
@@ -109,6 +110,26 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-950">
+      {/* Home Button */}
+      <div className="container mx-auto px-4 pt-6">
+        <motion.div
+          whileHover={{ x: -5 }}
+          whileTap={{ scale: 0.95 }}
+          className="inline-block"
+        >
+          <Link href="/">
+            <Button
+              variant="ghost"
+              className="flex items-center gap-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Retour à l'accueil
+            </Button>
+          </Link>
+        </motion.div>
+      </div>
+
+      {/* Rest of the page content */}
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-blue-900/10 dark:bg-blue-900/30 z-0"></div>
