@@ -51,8 +51,9 @@ export function StudentForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Student information saved",
-      description: "The student information has been saved successfully.",
+      title: "Informations de l'élève enregistrées",
+      description:
+        "Les informations de l'élève ont été enregistrées avec succès.",
     });
   };
 
@@ -108,10 +109,10 @@ export function StudentForm() {
             </div>
             <div>
               <CardTitle className="text-blue-800">
-                Student Information
+                Informations de l'Élève
               </CardTitle>
               <CardDescription className="text-blue-600">
-                Enter the details of the student to add them to the system
+                Entrez les détails de l'élève pour l'ajouter au système
               </CardDescription>
             </div>
           </div>
@@ -128,7 +129,7 @@ export function StudentForm() {
                 }`}
               >
                 <User className="h-4 w-4" />
-                Personal Information
+                Informations Personnelles
               </TabsTrigger>
               <TabsTrigger
                 value="academic"
@@ -139,7 +140,7 @@ export function StudentForm() {
                 }`}
               >
                 <GraduationCap className="h-4 w-4" />
-                Academic Information
+                Informations Académiques
               </TabsTrigger>
               <TabsTrigger
                 value="guardian"
@@ -150,11 +151,14 @@ export function StudentForm() {
                 }`}
               >
                 <Users className="h-4 w-4" />
-                Guardian Information
+                Informations du Tuteur
               </TabsTrigger>
             </TabsList>
 
-            <div className="relative min-h-[450px]">
+            <div
+              className="relative h-full overflow-y-auto"
+              style={{ minHeight: "450px" }}
+            >
               <AnimatePresence mode="wait">
                 {activeTab === "personal" && (
                   <motion.div
@@ -181,11 +185,11 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <User className="h-4 w-4" />
-                            First Name
+                            Prénom
                           </Label>
                           <Input
                             id="first-name"
-                            placeholder="Enter first name"
+                            placeholder="Entrez le prénom"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -196,11 +200,11 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <User className="h-4 w-4" />
-                            Last Name
+                            Nom
                           </Label>
                           <Input
                             id="last-name"
-                            placeholder="Enter last name"
+                            placeholder="Entrez le nom"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -212,7 +216,7 @@ export function StudentForm() {
                       >
                         <div className="space-y-2">
                           <Label htmlFor="gender" className="text-blue-700">
-                            Gender
+                            Genre
                           </Label>
                           <RadioGroup
                             defaultValue="male"
@@ -225,7 +229,7 @@ export function StudentForm() {
                                 className="text-blue-600"
                               />
                               <Label htmlFor="male" className="cursor-pointer">
-                                Male
+                                Masculin
                               </Label>
                             </div>
                             <div className="flex items-center space-x-2">
@@ -238,7 +242,7 @@ export function StudentForm() {
                                 htmlFor="female"
                                 className="cursor-pointer"
                               >
-                                Female
+                                Féminin
                               </Label>
                             </div>
                           </RadioGroup>
@@ -250,7 +254,7 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Calendar className="h-4 w-4" />
-                            Date of Birth
+                            Date de Naissance
                           </Label>
                           <Input
                             id="dob"
@@ -270,11 +274,11 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <MapPin className="h-4 w-4" />
-                            Place of Birth
+                            Lieu de Naissance
                           </Label>
                           <Input
                             id="place-of-birth"
-                            placeholder="Enter place of birth"
+                            placeholder="Entrez le lieu de naissance"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -285,12 +289,12 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Flag className="h-4 w-4" />
-                            Nationality
+                            Nationalité
                           </Label>
                           <Input
                             id="nationality"
-                            placeholder="Enter nationality"
-                            defaultValue="Chadian"
+                            placeholder="Entrez la nationalité"
+                            defaultValue="Tchadienne"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -302,11 +306,11 @@ export function StudentForm() {
                           className="text-blue-700 flex items-center gap-2"
                         >
                           <MapPin className="h-4 w-4" />
-                          Address
+                          Adresse
                         </Label>
                         <Textarea
                           id="address"
-                          placeholder="Enter address"
+                          placeholder="Entrez l'adresse"
                           className="min-h-[100px] border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                         />
                       </motion.div>
@@ -339,14 +343,14 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Building className="h-4 w-4" />
-                            School
+                            École
                           </Label>
                           <Select>
                             <SelectTrigger
                               id="school"
                               className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                             >
-                              <SelectValue placeholder="Select school" />
+                              <SelectValue placeholder="Sélectionnez une école" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="school1">
@@ -368,14 +372,14 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <BookOpen className="h-4 w-4" />
-                            Class
+                            Classe
                           </Label>
                           <Select>
                             <SelectTrigger
                               id="class"
                               className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                             >
-                              <SelectValue placeholder="Select class" />
+                              <SelectValue placeholder="Sélectionnez une classe" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="terminal-d">
@@ -411,21 +415,21 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <GraduationCap className="h-4 w-4" />
-                            Academic Track
+                            Filière
                           </Label>
                           <Select>
                             <SelectTrigger
                               id="track"
                               className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                             >
-                              <SelectValue placeholder="Select academic track" />
+                              <SelectValue placeholder="Sélectionnez une filière" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="science">Science</SelectItem>
+                              <SelectItem value="science">Sciences</SelectItem>
                               <SelectItem value="literature">
-                                Literature
+                                Littérature
                               </SelectItem>
-                              <SelectItem value="general">General</SelectItem>
+                              <SelectItem value="general">Général</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -436,12 +440,12 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Calendar className="h-4 w-4" />
-                            Entry Year
+                            Année d'Entrée
                           </Label>
                           <Input
                             id="entry-year"
                             type="number"
-                            placeholder="YYYY"
+                            placeholder="AAAA"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -457,11 +461,11 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <CreditCard className="h-4 w-4" />
-                            Student ID
+                            Numéro d'Étudiant
                           </Label>
                           <Input
                             id="student-id"
-                            placeholder="Enter student ID"
+                            placeholder="Entrez le numéro d'étudiant"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -472,11 +476,11 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Building className="h-4 w-4" />
-                            Previous School
+                            École Précédente
                           </Label>
                           <Input
                             id="previous-school"
-                            placeholder="Enter previous school (if applicable)"
+                            placeholder="Entrez l'école précédente (si applicable)"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -488,11 +492,11 @@ export function StudentForm() {
                           className="text-blue-700 flex items-center gap-2"
                         >
                           <BookOpen className="h-4 w-4" />
-                          Academic Notes
+                          Notes Académiques
                         </Label>
                         <Textarea
                           id="academic-notes"
-                          placeholder="Enter any academic notes or special considerations"
+                          placeholder="Entrez des notes académiques ou des considérations spéciales"
                           className="min-h-[100px] border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                         />
                       </motion.div>
@@ -525,11 +529,11 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <User className="h-4 w-4" />
-                            Guardian Name
+                            Nom du Tuteur
                           </Label>
                           <Input
                             id="guardian-name"
-                            placeholder="Enter guardian's full name"
+                            placeholder="Entrez le nom complet du tuteur"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -540,24 +544,24 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Users className="h-4 w-4" />
-                            Relationship
+                            Relation
                           </Label>
                           <Select>
                             <SelectTrigger
                               id="relationship"
                               className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                             >
-                              <SelectValue placeholder="Select relationship" />
+                              <SelectValue placeholder="Sélectionnez la relation" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="father">Father</SelectItem>
-                              <SelectItem value="mother">Mother</SelectItem>
-                              <SelectItem value="uncle">Uncle</SelectItem>
-                              <SelectItem value="aunt">Aunt</SelectItem>
+                              <SelectItem value="father">Père</SelectItem>
+                              <SelectItem value="mother">Mère</SelectItem>
+                              <SelectItem value="uncle">Oncle</SelectItem>
+                              <SelectItem value="aunt">Tante</SelectItem>
                               <SelectItem value="grandparent">
-                                Grandparent
+                                Grand-parent
                               </SelectItem>
-                              <SelectItem value="other">Other</SelectItem>
+                              <SelectItem value="other">Autre</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -573,11 +577,11 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Phone className="h-4 w-4" />
-                            Phone Number
+                            Numéro de Téléphone
                           </Label>
                           <Input
                             id="guardian-phone"
-                            placeholder="Enter guardian's phone number"
+                            placeholder="Entrez le numéro de téléphone du tuteur"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -588,12 +592,12 @@ export function StudentForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Mail className="h-4 w-4" />
-                            Email (Optional)
+                            Email (Optionnel)
                           </Label>
                           <Input
                             id="guardian-email"
                             type="email"
-                            placeholder="Enter guardian's email"
+                            placeholder="Entrez l'email du tuteur"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -605,11 +609,11 @@ export function StudentForm() {
                           className="text-blue-700 flex items-center gap-2"
                         >
                           <MapPin className="h-4 w-4" />
-                          Address
+                          Adresse
                         </Label>
                         <Textarea
                           id="guardian-address"
-                          placeholder="Enter guardian's address"
+                          placeholder="Entrez l'adresse du tuteur"
                           className="min-h-[100px] border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                         />
                       </motion.div>
@@ -620,11 +624,11 @@ export function StudentForm() {
                           className="text-blue-700 flex items-center gap-2"
                         >
                           <Briefcase className="h-4 w-4" />
-                          Occupation
+                          Profession
                         </Label>
                         <Input
                           id="guardian-occupation"
-                          placeholder="Enter guardian's occupation"
+                          placeholder="Entrez la profession du tuteur"
                           className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                         />
                       </motion.div>
@@ -643,7 +647,7 @@ export function StudentForm() {
               className="border-blue-200 text-blue-700 hover:bg-blue-50 hover:text-blue-800 hover:border-blue-300 transition-all duration-300 flex items-center gap-2"
             >
               <X className="h-4 w-4" />
-              Cancel
+              Annuler
             </Button>
           </motion.div>
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
@@ -652,7 +656,7 @@ export function StudentForm() {
               className="bg-blue-600 hover:bg-blue-700 transition-all duration-300 flex items-center gap-2"
             >
               <Save className="h-4 w-4" />
-              Save Student
+              Enregistrer l'Élève
             </Button>
           </motion.div>
         </CardFooter>
@@ -665,7 +669,10 @@ export function StudentForm() {
         transition={{ delay: 0.5 }}
       >
         <div className="flex items-center gap-2 text-sm text-blue-600">
-          <span>Navigate between tabs to fill all required information</span>
+          <span>
+            Naviguez entre les onglets pour remplir toutes les informations
+            requises
+          </span>
           <ChevronRight className="h-4 w-4" />
         </div>
       </motion.div>
