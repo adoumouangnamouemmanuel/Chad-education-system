@@ -2,8 +2,6 @@
 
 import type React from "react";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,8 +11,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
   SelectContent,
@@ -24,24 +24,24 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-  User,
+  BookOpen,
   Briefcase,
-  School,
-  ChevronRight,
-  Save,
-  X,
   Calendar,
-  Phone,
-  MapPin,
+  ChevronRight,
+  Clock,
   CreditCard,
   GraduationCap,
-  Clock,
-  BookOpen,
+  MapPin,
+  Phone,
+  Save,
+  School,
+  User,
+  X,
 } from "lucide-react";
+import { useState } from "react";
 
 export function TeacherForm() {
   const [activeTab, setActiveTab] = useState("personal");
@@ -50,8 +50,9 @@ export function TeacherForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Teacher information saved",
-      description: "The teacher information has been saved successfully.",
+      title: "Informations de l'enseignant enregistrées",
+      description:
+        "Les informations de l'enseignant ont été enregistrées avec succès.",
     });
   };
 
@@ -107,10 +108,10 @@ export function TeacherForm() {
             </div>
             <div>
               <CardTitle className="text-blue-800">
-                Teacher Information
+                Informations de l'Enseignant
               </CardTitle>
               <CardDescription className="text-blue-600">
-                Enter the details of the teacher to add them to the system
+                Entrez les détails de l'enseignant pour l'ajouter au système
               </CardDescription>
             </div>
           </div>
@@ -127,7 +128,7 @@ export function TeacherForm() {
                 }`}
               >
                 <User className="h-4 w-4" />
-                Personal Information
+                Informations Personnelles
               </TabsTrigger>
               <TabsTrigger
                 value="professional"
@@ -138,7 +139,7 @@ export function TeacherForm() {
                 }`}
               >
                 <Briefcase className="h-4 w-4" />
-                Professional Information
+                Informations Professionnelles
               </TabsTrigger>
               <TabsTrigger
                 value="assignment"
@@ -149,11 +150,14 @@ export function TeacherForm() {
                 }`}
               >
                 <School className="h-4 w-4" />
-                School Assignment
+                Affectation Scolaire
               </TabsTrigger>
             </TabsList>
 
-            <div className="relative min-h-[450px]">
+            <div
+              className="relative h-full overflow-y-auto"
+              style={{ minHeight: "450px" }}
+            >
               <AnimatePresence mode="wait">
                 {activeTab === "personal" && (
                   <motion.div
@@ -180,11 +184,11 @@ export function TeacherForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <User className="h-4 w-4" />
-                            First Name
+                            Prénom
                           </Label>
                           <Input
                             id="first-name"
-                            placeholder="Enter first name"
+                            placeholder="Entrez le prénom"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -195,11 +199,11 @@ export function TeacherForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <User className="h-4 w-4" />
-                            Last Name
+                            Nom
                           </Label>
                           <Input
                             id="last-name"
-                            placeholder="Enter last name"
+                            placeholder="Entrez le nom"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -211,7 +215,7 @@ export function TeacherForm() {
                       >
                         <div className="space-y-2">
                           <Label htmlFor="gender" className="text-blue-700">
-                            Gender
+                            Genre
                           </Label>
                           <RadioGroup
                             defaultValue="male"
@@ -224,7 +228,7 @@ export function TeacherForm() {
                                 className="text-blue-600"
                               />
                               <Label htmlFor="male" className="cursor-pointer">
-                                Male
+                                Masculin
                               </Label>
                             </div>
                             <div className="flex items-center space-x-2">
@@ -237,7 +241,7 @@ export function TeacherForm() {
                                 htmlFor="female"
                                 className="cursor-pointer"
                               >
-                                Female
+                                Féminin
                               </Label>
                             </div>
                           </RadioGroup>
@@ -249,7 +253,7 @@ export function TeacherForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Calendar className="h-4 w-4" />
-                            Date of Birth
+                            Date de Naissance
                           </Label>
                           <Input
                             id="dob"
@@ -269,11 +273,11 @@ export function TeacherForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <CreditCard className="h-4 w-4" />
-                            National ID Number
+                            Numéro de Carte d'Identité
                           </Label>
                           <Input
                             id="id-number"
-                            placeholder="Enter national ID number"
+                            placeholder="Entrez le numéro de carte d'identité"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -284,11 +288,11 @@ export function TeacherForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Phone className="h-4 w-4" />
-                            Phone Number
+                            Numéro de Téléphone
                           </Label>
                           <Input
                             id="phone"
-                            placeholder="Enter phone number"
+                            placeholder="Entrez le numéro de téléphone"
                             className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                           />
                         </div>
@@ -300,11 +304,11 @@ export function TeacherForm() {
                           className="text-blue-700 flex items-center gap-2"
                         >
                           <MapPin className="h-4 w-4" />
-                          Address
+                          Adresse
                         </Label>
                         <Textarea
                           id="address"
-                          placeholder="Enter address"
+                          placeholder="Entrez l'adresse"
                           className="min-h-[100px] border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                         />
                       </motion.div>
@@ -337,27 +341,23 @@ export function TeacherForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <GraduationCap className="h-4 w-4" />
-                            Highest Qualification
+                            Diplôme le Plus Élevé
                           </Label>
                           <Select>
                             <SelectTrigger
                               id="qualification"
                               className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                             >
-                              <SelectValue placeholder="Select qualification" />
+                              <SelectValue placeholder="Sélectionnez un diplôme" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="certificate">
-                                Teaching Certificate
+                                Certificat d'Enseignement
                               </SelectItem>
-                              <SelectItem value="diploma">Diploma</SelectItem>
-                              <SelectItem value="bachelor">
-                                Bachelor's Degree
-                              </SelectItem>
-                              <SelectItem value="master">
-                                Master's Degree
-                              </SelectItem>
-                              <SelectItem value="phd">PhD</SelectItem>
+                              <SelectItem value="diploma">Diplôme</SelectItem>
+                              <SelectItem value="bachelor">Licence</SelectItem>
+                              <SelectItem value="master">Master</SelectItem>
+                              <SelectItem value="phd">Doctorat</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -368,7 +368,7 @@ export function TeacherForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Clock className="h-4 w-4" />
-                            Years of Experience
+                            Années d'Expérience
                           </Label>
                           <Input
                             id="experience"
@@ -389,24 +389,24 @@ export function TeacherForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Briefcase className="h-4 w-4" />
-                            Employment Type
+                            Type d'Emploi
                           </Label>
                           <Select>
                             <SelectTrigger
                               id="employment-type"
                               className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                             >
-                              <SelectValue placeholder="Select employment type" />
+                              <SelectValue placeholder="Sélectionnez le type d'emploi" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="permanent">
                                 Permanent
                               </SelectItem>
                               <SelectItem value="contractual">
-                                Contractual
+                                Contractuel
                               </SelectItem>
                               <SelectItem value="volunteer">
-                                Volunteer
+                                Volontaire
                               </SelectItem>
                             </SelectContent>
                           </Select>
@@ -418,7 +418,7 @@ export function TeacherForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Calendar className="h-4 w-4" />
-                            Start Date
+                            Date de Début
                           </Label>
                           <Input
                             id="start-date"
@@ -428,22 +428,25 @@ export function TeacherForm() {
                         </div>
                       </motion.div>
 
-                      <motion.div variants={itemVariants} className="space-y-3">
+                      <motion.div
+                        variants={itemVariants}
+                        className="space-y-3 w-full"
+                      >
                         <Label className="text-blue-700 flex items-center gap-2">
                           <BookOpen className="h-4 w-4" />
-                          Subjects Taught
+                          Matières Enseignées
                         </Label>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 p-4 bg-blue-50 rounded-lg border border-blue-100 w-full">
                           {[
-                            "Mathematics",
-                            "Physics",
-                            "Chemistry",
-                            "Biology",
-                            "French",
-                            "English",
-                            "History",
-                            "Geography",
-                            "Physical Education",
+                            "Mathématiques",
+                            "Physique",
+                            "Chimie",
+                            "Biologie",
+                            "Français",
+                            "Anglais",
+                            "Histoire",
+                            "Géographie",
+                            "Éducation Physique",
                           ].map((subject) => (
                             <motion.div
                               key={subject}
@@ -471,11 +474,11 @@ export function TeacherForm() {
                           className="text-blue-700 flex items-center gap-2"
                         >
                           <GraduationCap className="h-4 w-4" />
-                          Specialization
+                          Spécialisation
                         </Label>
                         <Textarea
                           id="specialization"
-                          placeholder="Enter specialization or additional skills"
+                          placeholder="Entrez la spécialisation ou les compétences supplémentaires"
                           className="min-h-[100px] border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                         />
                       </motion.div>
@@ -508,14 +511,14 @@ export function TeacherForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <School className="h-4 w-4" />
-                            Assigned School
+                            École Assignée
                           </Label>
                           <Select>
                             <SelectTrigger
                               id="school"
                               className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                             >
-                              <SelectValue placeholder="Select school" />
+                              <SelectValue placeholder="Sélectionnez une école" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="school1">
@@ -537,25 +540,27 @@ export function TeacherForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Briefcase className="h-4 w-4" />
-                            Position
+                            Poste
                           </Label>
                           <Select>
                             <SelectTrigger
                               id="position"
                               className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                             >
-                              <SelectValue placeholder="Select position" />
+                              <SelectValue placeholder="Sélectionnez un poste" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="teacher">Teacher</SelectItem>
+                              <SelectItem value="teacher">
+                                Enseignant
+                              </SelectItem>
                               <SelectItem value="head-teacher">
-                                Head Teacher
+                                Enseignant Principal
                               </SelectItem>
                               <SelectItem value="department-head">
-                                Department Head
+                                Chef de Département
                               </SelectItem>
                               <SelectItem value="vice-principal">
-                                Vice Principal
+                                Directeur Adjoint
                               </SelectItem>
                             </SelectContent>
                           </Select>
@@ -566,15 +571,15 @@ export function TeacherForm() {
                         variants={itemVariants}
                         className="grid grid-cols-1 md:grid-cols-2 gap-6"
                       >
-                        <div className="space-y-3">
+                        <div className="space-y-3 w-full">
                           <Label
                             htmlFor="classes"
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <BookOpen className="h-4 w-4" />
-                            Classes Taught
+                            Classes Enseignées
                           </Label>
-                          <div className="grid grid-cols-2 gap-3 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                          <div className="grid grid-cols-2 gap-3 p-4 bg-blue-50 rounded-lg border border-blue-100 w-full">
                             {[
                               "Terminal D",
                               "Terminal C",
@@ -609,7 +614,7 @@ export function TeacherForm() {
                             className="text-blue-700 flex items-center gap-2"
                           >
                             <Clock className="h-4 w-4" />
-                            Weekly Teaching Hours
+                            Heures d'Enseignement Hebdomadaires
                           </Label>
                           <Input
                             id="hours"
@@ -626,11 +631,11 @@ export function TeacherForm() {
                           className="text-blue-700 flex items-center gap-2"
                         >
                           <BookOpen className="h-4 w-4" />
-                          Additional Notes
+                          Notes Supplémentaires
                         </Label>
                         <Textarea
                           id="notes"
-                          placeholder="Enter any additional notes about the teacher's assignment"
+                          placeholder="Entrez des notes supplémentaires concernant l'affectation de l'enseignant"
                           className="min-h-[100px] border-blue-200 focus:border-blue-400 focus:ring-blue-400 transition-all duration-300"
                         />
                       </motion.div>
@@ -649,7 +654,7 @@ export function TeacherForm() {
               className="border-blue-200 text-blue-700 hover:bg-blue-50 hover:text-blue-800 hover:border-blue-300 transition-all duration-300 flex items-center gap-2"
             >
               <X className="h-4 w-4" />
-              Cancel
+              Annuler
             </Button>
           </motion.div>
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
@@ -658,7 +663,7 @@ export function TeacherForm() {
               className="bg-blue-600 hover:bg-blue-700 transition-all duration-300 flex items-center gap-2"
             >
               <Save className="h-4 w-4" />
-              Save Teacher
+              Enregistrer l'Enseignant
             </Button>
           </motion.div>
         </CardFooter>
@@ -671,7 +676,10 @@ export function TeacherForm() {
         transition={{ delay: 0.5 }}
       >
         <div className="flex items-center gap-2 text-sm text-blue-600">
-          <span>Navigate between tabs to fill all required information</span>
+          <span>
+            Naviguez entre les onglets pour remplir toutes les informations
+            requises
+          </span>
           <ChevronRight className="h-4 w-4" />
         </div>
       </motion.div>
