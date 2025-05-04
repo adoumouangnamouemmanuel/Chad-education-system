@@ -14,7 +14,7 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: "Chad National School Digital Management System",
+  title: "Tchad Education",
   description:
     "A comprehensive digital management system for all schools in Chad",
   icons: {
