@@ -14,7 +14,7 @@ const generateData = () => [
 ]
 
 export function PerformanceChart() {
-  const [data, setData] = useState([])
+  const [data, setData] = useState<{ name: string; average: number; national: number }[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
