@@ -1,23 +1,23 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
 import {
-  BookOpen,
-  BarChart,
-  Users,
-  Database,
-  Globe,
-  Smartphone,
-  Shield,
+  ArrowLeft,
   Award,
+  BarChart,
+  BookOpen,
   CheckCircle,
   ChevronRight,
-  ArrowLeft,
+  Database,
+  Globe,
+  Shield,
+  Smartphone,
+  Users,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function AboutPage() {
   const fadeIn = {
@@ -89,22 +89,22 @@ export default function AboutPage() {
     {
       name: "Dr. Amadou Koné",
       role: "Directeur du Projet",
-      image: "/placeholder.svg?height=300&width=300",
+      image: "/images/emma.png",
     },
     {
       name: "Mme. Fatima Hassan",
       role: "Responsable Technique",
-      image: "/placeholder.svg?height=300&width=300",
+      image: "/images/emma.png",
     },
     {
       name: "M. Ibrahim Ousmane",
       role: "Spécialiste en Éducation",
-      image: "/placeholder.svg?height=300&width=300",
+      image: "/images/emma.png",
     },
     {
       name: "Mme. Aisha Deby",
       role: "Analyste de Données",
-      image: "/placeholder.svg?height=300&width=300",
+      image: "/images/emma.png",
     },
   ];
 
@@ -203,7 +203,7 @@ export default function AboutPage() {
               transition={{ duration: 0.8 }}
             >
               <Image
-                src="/placeholder.svg?height=600&width=800"
+                src="/images/place-de-la-nation.png"
                 alt="Notre Mission"
                 width={600}
                 height={400}
