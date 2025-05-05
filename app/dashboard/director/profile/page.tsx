@@ -34,9 +34,7 @@ import {
   ChevronLeft,
   Download,
   Edit2,
-  FileText,
   GraduationCap,
-  Lock,
   Mail,
   MapPin,
   Phone,
@@ -64,11 +62,6 @@ import {
   PieChart,
   Pie,
   Cell,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar,
 } from "recharts";
 import Link from "next/link";
 
@@ -132,7 +125,7 @@ export default function DirectorProfilePage() {
       transition: {
         duration: 2,
         ease: "easeInOut",
-        repeat: Infinity,
+        repeat: Number.POSITIVE_INFINITY,
         repeatType: "reverse",
       },
     });
@@ -324,7 +317,7 @@ export default function DirectorProfilePage() {
                   }}
                   transition={{
                     duration: 10,
-                    repeat: Infinity,
+                    repeat: Number.POSITIVE_INFINITY,
                     repeatType: "reverse",
                   }}
                   style={{
@@ -581,176 +574,301 @@ export default function DirectorProfilePage() {
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="space-y-6 p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="fullName"
-                              className="text-blue-700 dark:text-blue-300"
+                        {isEditing ? (
+                          // Form view when editing
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
                             >
-                              Nom Complet
-                            </Label>
-                            <Input
-                              id="fullName"
-                              defaultValue="Jean Baptiste Ndjamena"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="directorId"
-                              className="text-blue-700 dark:text-blue-300"
-                            >
-                              ID Directeur
-                            </Label>
-                            <Input
-                              id="directorId"
-                              defaultValue="DIR-2019-0023"
-                              disabled={true}
-                              className="bg-blue-50 dark:bg-blue-900 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="email"
-                              className="text-blue-700 dark:text-blue-300"
-                            >
-                              Adresse Email
-                            </Label>
-                            <Input
-                              id="email"
-                              type="email"
-                              defaultValue="jean.baptiste@education.td"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="phone"
-                              className="text-blue-700 dark:text-blue-300"
-                            >
-                              Numéro de Téléphone
-                            </Label>
-                            <Input
-                              id="phone"
-                              defaultValue="+235 63 45 78 90"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="appointmentDate"
-                              className="text-blue-700 dark:text-blue-300"
-                            >
-                              Date de Nomination
-                            </Label>
-                            <Input
-                              id="appointmentDate"
-                              type="date"
-                              defaultValue="2019-09-01"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="address"
-                              className="text-blue-700 dark:text-blue-300"
-                            >
-                              Adresse
-                            </Label>
-                            <Input
-                              id="address"
-                              defaultValue="Avenue Charles de Gaulle, N'Djamena"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                        </div>
-
-                        <motion.div
-                          className="space-y-2"
-                          whileHover={{ scale: 1.01 }}
-                          transition={{ type: "spring", stiffness: 400 }}
-                        >
-                          <Label
-                            htmlFor="bio"
-                            className="text-blue-700 dark:text-blue-300"
-                          >
-                            Biographie
-                          </Label>
-                          <Textarea
-                            id="bio"
-                            rows={4}
-                            defaultValue="Jean Baptiste Ndjamena est directeur du Lycée National de N'Djamena depuis septembre 2019. Avec plus de 15 ans d'expérience dans l'éducation, il a mis en œuvre plusieurs améliorations clés de l'infrastructure et des programmes académiques de l'école. Sous sa direction, l'école s'est constamment classée parmi les 5 premières du pays pour ses performances académiques. M. Ndjamena est titulaire d'une maîtrise en administration de l'éducation de l'Université de N'Djamena."
-                            disabled={!isEditing}
-                            className="resize-none transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                          />
-                        </motion.div>
-
-                        <div className="space-y-2">
-                          <Label
-                            htmlFor="qualifications"
-                            className="text-blue-700 dark:text-blue-300"
-                          >
-                            Qualifications
-                          </Label>
-                          <div className="flex flex-wrap gap-2">
-                            <Badge
-                              variant="secondary"
-                              className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                            >
-                              Maîtrise en Administration de l&apos;Éducation
-                            </Badge>
-                            <Badge
-                              variant="secondary"
-                              className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                            >
-                              Licence en Mathématiques
-                            </Badge>
-                            <Badge
-                              variant="secondary"
-                              className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                            >
-                              Administrateur Scolaire Certifié
-                            </Badge>
-                            {isEditing && (
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className="rounded-full"
+                              <Label
+                                htmlFor="fullName"
+                                className="text-blue-700 dark:text-blue-300"
                               >
-                                + Ajouter une qualification
-                              </Button>
-                            )}
+                                Nom Complet
+                              </Label>
+                              <Input
+                                id="fullName"
+                                defaultValue="Jean Baptiste Ndjamena"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <Label
+                                htmlFor="directorId"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                ID Directeur
+                              </Label>
+                              <Input
+                                id="directorId"
+                                defaultValue="DIR-2019-0023"
+                                disabled={true}
+                                className="bg-blue-50 dark:bg-blue-900 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <Label
+                                htmlFor="email"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Adresse Email
+                              </Label>
+                              <Input
+                                id="email"
+                                type="email"
+                                defaultValue="jean.baptiste@education.td"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <Label
+                                htmlFor="phone"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Numéro de Téléphone
+                              </Label>
+                              <Input
+                                id="phone"
+                                defaultValue="+235 63 45 78 90"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <Label
+                                htmlFor="appointmentDate"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Date de Nomination
+                              </Label>
+                              <Input
+                                id="appointmentDate"
+                                type="date"
+                                defaultValue="2019-09-01"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <Label
+                                htmlFor="address"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Adresse
+                              </Label>
+                              <Input
+                                id="address"
+                                defaultValue="Avenue Charles de Gaulle, N'Djamena"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2 md:col-span-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <Label
+                                htmlFor="bio"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Biographie
+                              </Label>
+                              <Textarea
+                                id="bio"
+                                rows={4}
+                                defaultValue="Jean Baptiste Ndjamena est directeur du Lycée National de N'Djamena depuis septembre 2019. Avec plus de 15 ans d'expérience dans l'éducation, il a mis en œuvre plusieurs améliorations clés de l'infrastructure et des programmes académiques de l'école. Sous sa direction, l'école s'est constamment classée parmi les 5 premières du pays pour ses performances académiques. M. Ndjamena est titulaire d'une maîtrise en administration de l'éducation de l'Université de N'Djamena."
+                                className="resize-none transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2 md:col-span-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <Label
+                                htmlFor="qualifications"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Qualifications
+                              </Label>
+                              <div className="flex flex-wrap gap-2">
+                                <Badge
+                                  variant="secondary"
+                                  className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                                >
+                                  Maîtrise en Administration de l&apos;Éducation
+                                </Badge>
+                                <Badge
+                                  variant="secondary"
+                                  className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                                >
+                                  Licence en Mathématiques
+                                </Badge>
+                                <Badge
+                                  variant="secondary"
+                                  className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                                >
+                                  Administrateur Scolaire Certifié
+                                </Badge>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="rounded-full"
+                                >
+                                  + Ajouter une qualification
+                                </Button>
+                              </div>
+                            </motion.div>
                           </div>
-                        </div>
+                        ) : (
+                          // Display view when not editing
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Nom Complet
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                Jean Baptiste Ndjamena
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                ID Directeur
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                DIR-2019-0023
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Adresse Email
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                jean.baptiste@education.td
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Numéro de Téléphone
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                +235 63 45 78 90
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Date de Nomination
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                01/09/2019
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Adresse
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                Avenue Charles de Gaulle, N&apos;Djamena
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2 md:col-span-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Biographie
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                Jean Baptiste Ndjamena est directeur du Lycée
+                                National de N&apos;Djamena depuis septembre
+                                2019. Avec plus de 15 ans d&apos;expérience dans
+                                l&apos;éducation, il a mis en œuvre plusieurs
+                                améliorations clés de l&apos;infrastructure et
+                                des programmes académiques de l&apos;école. Sous
+                                sa direction, l&apos;école s&apos;est
+                                constamment classée parmi les 5 premières du
+                                pays pour ses performances académiques. M.
+                                Ndjamena est titulaire d&apos;une maîtrise en
+                                administration de l&apos;éducation de
+                                l&apos;Université de N&apos;Djamena.
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2 md:col-span-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Qualifications
+                              </h3>
+                              <div className="flex flex-wrap gap-2 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                <Badge
+                                  variant="secondary"
+                                  className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                                >
+                                  Maîtrise en Administration de l&apos;Éducation
+                                </Badge>
+                                <Badge
+                                  variant="secondary"
+                                  className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                                >
+                                  Licence en Mathématiques
+                                </Badge>
+                                <Badge
+                                  variant="secondary"
+                                  className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                                >
+                                  Administrateur Scolaire Certifié
+                                </Badge>
+                              </div>
+                            </motion.div>
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
                   </TabsContent>
@@ -768,100 +886,179 @@ export default function DirectorProfilePage() {
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="space-y-6 p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="schoolName"
-                              className="text-blue-700 dark:text-blue-300"
-                            >
-                              Nom de l&apos;École
-                            </Label>
-                            <Input
-                              id="schoolName"
-                              defaultValue="Lycée National de N'Djamena"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="schoolCode"
-                              className="text-blue-700 dark:text-blue-300"
-                            >
-                              Code de l&apos;École
-                            </Label>
-                            <Input
-                              id="schoolCode"
-                              defaultValue="LYC-NDJ-001"
-                              disabled={true}
-                              className="bg-blue-50 dark:bg-blue-900 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="schoolType"
-                              className="text-blue-700 dark:text-blue-300"
-                            >
-                              Type d&apos;École
-                            </Label>
-                            <Input
-                              id="schoolType"
-                              defaultValue="Lycée Public"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="foundedYear"
-                              className="text-blue-700 dark:text-blue-300"
-                            >
-                              Année de Fondation
-                            </Label>
-                            <Input
-                              id="foundedYear"
-                              defaultValue="1965"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                        </div>
+                        {isEditing ? (
+                          // Form view when editing
+                          <div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                              <motion.div
+                                className="space-y-2"
+                                whileHover={{ scale: 1.01 }}
+                                transition={{ type: "spring", stiffness: 400 }}
+                              >
+                                <Label
+                                  htmlFor="schoolName"
+                                  className="text-blue-700 dark:text-blue-300"
+                                >
+                                  Nom de l&apos;École
+                                </Label>
+                                <Input
+                                  id="schoolName"
+                                  defaultValue="Lycée National de N'Djamena"
+                                  className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                                />
+                              </motion.div>
+                              <motion.div
+                                className="space-y-2"
+                                whileHover={{ scale: 1.01 }}
+                                transition={{ type: "spring", stiffness: 400 }}
+                              >
+                                <Label
+                                  htmlFor="schoolCode"
+                                  className="text-blue-700 dark:text-blue-300"
+                                >
+                                  Code de l&apos;École
+                                </Label>
+                                <Input
+                                  id="schoolCode"
+                                  defaultValue="LYC-NDJ-001"
+                                  disabled={true}
+                                  className="bg-blue-50 dark:bg-blue-900 border-blue-200 dark:border-blue-800"
+                                />
+                              </motion.div>
+                              <motion.div
+                                className="space-y-2"
+                                whileHover={{ scale: 1.01 }}
+                                transition={{ type: "spring", stiffness: 400 }}
+                              >
+                                <Label
+                                  htmlFor="schoolType"
+                                  className="text-blue-700 dark:text-blue-300"
+                                >
+                                  Type d&apos;École
+                                </Label>
+                                <Input
+                                  id="schoolType"
+                                  defaultValue="Lycée Public"
+                                  className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                                />
+                              </motion.div>
+                              <motion.div
+                                className="space-y-2"
+                                whileHover={{ scale: 1.01 }}
+                                transition={{ type: "spring", stiffness: 400 }}
+                              >
+                                <Label
+                                  htmlFor="foundedYear"
+                                  className="text-blue-700 dark:text-blue-300"
+                                >
+                                  Année de Fondation
+                                </Label>
+                                <Input
+                                  id="foundedYear"
+                                  defaultValue="1965"
+                                  className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                                />
+                              </motion.div>
+                            </div>
 
-                        <motion.div
-                          className="space-y-2"
-                          whileHover={{ scale: 1.01 }}
-                          transition={{ type: "spring", stiffness: 400 }}
-                        >
-                          <Label
-                            htmlFor="schoolDescription"
-                            className="text-blue-700 dark:text-blue-300"
-                          >
-                            Description de l&apos;École
-                          </Label>
-                          <Textarea
-                            id="schoolDescription"
-                            rows={4}
-                            defaultValue="Le Lycée National de N'Djamena est l'une des plus anciennes et des plus prestigieuses écoles secondaires du Tchad. Fondé en 1965, il a une riche histoire d'excellence académique et a produit de nombreux anciens élèves remarquables qui ont accédé à des postes de direction dans le gouvernement, les affaires et le milieu universitaire. L'école offre un programme complet de la 6ème à la Terminale, avec des spécialisations en sciences, littérature et économie."
-                            disabled={!isEditing}
-                            className="resize-none transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                          />
-                        </motion.div>
+                            <motion.div
+                              className="space-y-2 mt-6"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <Label
+                                htmlFor="schoolDescription"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Description de l&apos;École
+                              </Label>
+                              <Textarea
+                                id="schoolDescription"
+                                rows={4}
+                                defaultValue="Le Lycée National de N'Djamena est l'une des plus anciennes et des plus prestigieuses écoles secondaires du Tchad. Fondé en 1965, il a une riche histoire d'excellence académique et a produit de nombreux anciens élèves remarquables qui ont accédé à des postes de direction dans le gouvernement, les affaires et le milieu universitaire. L'école offre un programme complet de la 6ème à la Terminale, avec des spécialisations en sciences, littérature et économie."
+                                className="resize-none transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                          </div>
+                        ) : (
+                          // Display view when not editing
+                          <div className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                              <motion.div
+                                className="space-y-2"
+                                whileHover={{ scale: 1.01, x: 5 }}
+                                transition={{ type: "spring", stiffness: 400 }}
+                              >
+                                <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                  Nom de l&apos;École
+                                </h3>
+                                <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                  Lycée National de N&apos;Djamena
+                                </p>
+                              </motion.div>
+                              <motion.div
+                                className="space-y-2"
+                                whileHover={{ scale: 1.01, x: 5 }}
+                                transition={{ type: "spring", stiffness: 400 }}
+                              >
+                                <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                  Code de l&apos;École
+                                </h3>
+                                <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                  LYC-NDJ-001
+                                </p>
+                              </motion.div>
+                              <motion.div
+                                className="space-y-2"
+                                whileHover={{ scale: 1.01, x: 5 }}
+                                transition={{ type: "spring", stiffness: 400 }}
+                              >
+                                <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                  Type d&apos;École
+                                </h3>
+                                <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                  Lycée Public
+                                </p>
+                              </motion.div>
+                              <motion.div
+                                className="space-y-2"
+                                whileHover={{ scale: 1.01, x: 5 }}
+                                transition={{ type: "spring", stiffness: 400 }}
+                              >
+                                <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                  Année de Fondation
+                                </h3>
+                                <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                  1965
+                                </p>
+                              </motion.div>
+                            </div>
+
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Description de l&apos;École
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                Le Lycée National de N&apos;Djamena est
+                                l&apos;une des plus anciennes et des plus
+                                prestigieuses écoles secondaires du Tchad. Fondé
+                                en 1965, il a une riche histoire
+                                d&apos;excellence académique et a produit de
+                                nombreux anciens élèves remarquables qui ont
+                                accédé à des postes de direction dans le
+                                gouvernement, les affaires et le milieu
+                                universitaire. L&apos;école offre un programme
+                                complet de la 6ème à la Terminale, avec des
+                                spécialisations en sciences, littérature et
+                                économie.
+                              </p>
+                            </motion.div>
+                          </div>
+                        )}
 
                         <Separator className="bg-blue-100 dark:bg-blue-800" />
 
