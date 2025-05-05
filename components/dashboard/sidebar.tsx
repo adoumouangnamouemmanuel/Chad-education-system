@@ -619,13 +619,13 @@ export default function Sidebar({ userRole, onCollapse }: SidebarProps) {
             active: currentPath.startsWith(`/dashboard/student/assignments`),
             badge: 2,
           },
-          {
-            icon: <MessageSquare />,
-            label: "Messages",
-            href: `/dashboard/student/messages`,
-            active: currentPath.startsWith(`/dashboard/student/messages`),
-            badge: unreadMessages,
-          },
+          // {
+          //   icon: <MessageSquare />,
+          //   label: "Messages",
+          //   href: `/dashboard/student/messages`,
+          //   active: currentPath.startsWith(`/dashboard/student/messages`),
+          //   badge: unreadMessages,
+          // },
           {
             icon: <Bell />,
             label: "Notifications",
@@ -746,7 +746,7 @@ export default function Sidebar({ userRole, onCollapse }: SidebarProps) {
         </Link>
       </div>
 
-      {!isCollapsed && (
+      {/* {!isCollapsed && (
         <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
             <Avatar className="h-10 w-10 border-2 border-blue-100">
@@ -790,7 +790,7 @@ export default function Sidebar({ userRole, onCollapse }: SidebarProps) {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       <div className="flex-1 overflow-auto p-4 space-y-1.5">
         {sidebarItems.map((item) => (
