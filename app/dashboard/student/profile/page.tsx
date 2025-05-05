@@ -45,7 +45,6 @@ import {
   Star,
   User,
   ChevronLeft,
-  ChevronRight,
   Bell,
   Shield,
   Sparkles,
@@ -128,7 +127,7 @@ export default function StudentProfilePage() {
       transition: {
         duration: 2,
         ease: "easeInOut",
-        repeat: Infinity,
+        repeat: Number.POSITIVE_INFINITY,
         repeatType: "reverse",
       },
     });
@@ -187,7 +186,7 @@ export default function StudentProfilePage() {
       transition: {
         duration: 2,
         ease: "easeInOut",
-        repeat: Infinity,
+        repeat: Number.POSITIVE_INFINITY,
       },
     },
   };
@@ -199,7 +198,7 @@ export default function StudentProfilePage() {
         <Progress
           value={progress}
           className="h-1 rounded-none bg-transparent bg-blue-500"
-        //   className="h-1 rounded-none bg-transparent bg-blue-500"
+          //   className="h-1 rounded-none bg-transparent bg-blue-500"
         />
       </div>
 
@@ -348,7 +347,7 @@ export default function StudentProfilePage() {
                   }}
                   transition={{
                     duration: 10,
-                    repeat: Infinity,
+                    repeat: Number.POSITIVE_INFINITY,
                     repeatType: "reverse",
                   }}
                   style={{
@@ -615,210 +614,338 @@ export default function StudentProfilePage() {
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="space-y-6 p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="fullName"
-                              className="text-blue-700 dark:text-blue-300"
+                        {isEditing ? (
+                          // Form view when editing
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
                             >
-                              Nom Complet
-                            </Label>
-                            <Input
-                              id="fullName"
-                              defaultValue="Abakar Mahamat"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="studentId"
-                              className="text-blue-700 dark:text-blue-300"
+                              <Label
+                                htmlFor="fullName"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Nom Complet
+                              </Label>
+                              <Input
+                                id="fullName"
+                                defaultValue="Abakar Mahamat"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
                             >
-                              ID Étudiant
-                            </Label>
-                            <Input
-                              id="studentId"
-                              defaultValue="STD-2023-4567"
-                              disabled={true}
-                              className="bg-blue-50 dark:bg-blue-900 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="email"
-                              className="text-blue-700 dark:text-blue-300"
+                              <Label
+                                htmlFor="studentId"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                ID Étudiant
+                              </Label>
+                              <Input
+                                id="studentId"
+                                defaultValue="STD-2023-4567"
+                                disabled={true}
+                                className="bg-blue-50 dark:bg-blue-900 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
                             >
-                              Adresse Email
-                            </Label>
-                            <Input
-                              id="email"
-                              type="email"
-                              defaultValue="abakar.m@student.edu.td"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="phone"
-                              className="text-blue-700 dark:text-blue-300"
+                              <Label
+                                htmlFor="email"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Adresse Email
+                              </Label>
+                              <Input
+                                id="email"
+                                type="email"
+                                defaultValue="abakar.m@student.edu.td"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
                             >
-                              Numéro de Téléphone
-                            </Label>
-                            <Input
-                              id="phone"
-                              defaultValue="+235 65 XX XX XX"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="dateOfBirth"
-                              className="text-blue-700 dark:text-blue-300"
+                              <Label
+                                htmlFor="phone"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Numéro de Téléphone
+                              </Label>
+                              <Input
+                                id="phone"
+                                defaultValue="+235 65 XX XX XX"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
                             >
-                              Date de Naissance
-                            </Label>
-                            <Input
-                              id="dateOfBirth"
-                              type="date"
-                              defaultValue="2005-07-12"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="gender"
-                              className="text-blue-700 dark:text-blue-300"
+                              <Label
+                                htmlFor="dateOfBirth"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Date de Naissance
+                              </Label>
+                              <Input
+                                id="dateOfBirth"
+                                type="date"
+                                defaultValue="2005-07-12"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
                             >
-                              Genre
-                            </Label>
-                            <Input
-                              id="gender"
-                              defaultValue="Masculin"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="address"
-                              className="text-blue-700 dark:text-blue-300"
+                              <Label
+                                htmlFor="gender"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Genre
+                              </Label>
+                              <Input
+                                id="gender"
+                                defaultValue="Masculin"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
                             >
-                              Adresse
-                            </Label>
-                            <Input
-                              id="address"
-                              defaultValue="Quartier Diguel, N'Djamena"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="parentName"
-                              className="text-blue-700 dark:text-blue-300"
+                              <Label
+                                htmlFor="address"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Adresse
+                              </Label>
+                              <Input
+                                id="address"
+                                defaultValue="Quartier Diguel, N'Djamena"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
                             >
-                              Nom du Parent/Tuteur
-                            </Label>
-                            <Input
-                              id="parentName"
-                              defaultValue="Mahamat Ibrahim"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="parentContact"
-                              className="text-blue-700 dark:text-blue-300"
+                              <Label
+                                htmlFor="parentName"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Nom du Parent/Tuteur
+                              </Label>
+                              <Input
+                                id="parentName"
+                                defaultValue="Mahamat Ibrahim"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
                             >
-                              Contact du Parent/Tuteur
-                            </Label>
-                            <Input
-                              id="parentContact"
-                              defaultValue="+235 66 XX XX XX"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                          <motion.div
-                            className="space-y-2"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            <Label
-                              htmlFor="emergencyContact"
-                              className="text-blue-700 dark:text-blue-300"
+                              <Label
+                                htmlFor="parentContact"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Contact du Parent/Tuteur
+                              </Label>
+                              <Input
+                                id="parentContact"
+                                defaultValue="+235 66 XX XX XX"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
                             >
-                              Contact d&apos;Urgence
-                            </Label>
-                            <Input
-                              id="emergencyContact"
-                              defaultValue="+235 66 XX XX XX"
-                              disabled={!isEditing}
-                              className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                            />
-                          </motion.div>
-                        </div>
-
-                        <motion.div
-                          className="space-y-2"
-                          whileHover={{ scale: 1.01 }}
-                          transition={{ type: "spring", stiffness: 400 }}
-                        >
-                          <Label
-                            htmlFor="healthInfo"
-                            className="text-blue-700 dark:text-blue-300"
-                          >
-                            Informations de Santé
-                          </Label>
-                          <Textarea
-                            id="healthInfo"
-                            rows={3}
-                            defaultValue="Aucune allergie ou condition médicale connue."
-                            disabled={!isEditing}
-                            className="resize-none transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
-                          />
-                        </motion.div>
+                              <Label
+                                htmlFor="emergencyContact"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Contact d&apos;Urgence
+                              </Label>
+                              <Input
+                                id="emergencyContact"
+                                defaultValue="+235 66 XX XX XX"
+                                className="transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2 md:col-span-2"
+                              whileHover={{ scale: 1.01 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <Label
+                                htmlFor="healthInfo"
+                                className="text-blue-700 dark:text-blue-300"
+                              >
+                                Informations de Santé
+                              </Label>
+                              <Textarea
+                                id="healthInfo"
+                                rows={3}
+                                defaultValue="Aucune allergie ou condition médicale connue."
+                                className="resize-none transition-all focus-visible:ring-blue-500 border-blue-200 dark:border-blue-800"
+                              />
+                            </motion.div>
+                          </div>
+                        ) : (
+                          // Display view when not editing
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Nom Complet
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                Abakar Mahamat
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                ID Étudiant
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                STD-2023-4567
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Adresse Email
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                abakar.m@student.edu.td
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Numéro de Téléphone
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                +235 65 XX XX XX
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Date de Naissance
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                12/07/2005
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Genre
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                Masculin
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Adresse
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                Quartier Diguel, N&apos;Djamena
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Nom du Parent/Tuteur
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                Mahamat Ibrahim
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Contact du Parent/Tuteur
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                +235 66 XX XX XX
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Contact d&apos;Urgence
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                +235 66 XX XX XX
+                              </p>
+                            </motion.div>
+                            <motion.div
+                              className="space-y-2 md:col-span-2"
+                              whileHover={{ scale: 1.01, x: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <h3 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                Informations de Santé
+                              </h3>
+                              <p className="text-base font-semibold text-blue-900 dark:text-blue-50 p-2 bg-blue-50 dark:bg-blue-900 rounded-md shadow-sm">
+                                Aucune allergie ou condition médicale connue.
+                              </p>
+                            </motion.div>
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
                   </TabsContent>
