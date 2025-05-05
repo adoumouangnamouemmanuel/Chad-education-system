@@ -54,19 +54,6 @@ export default function TeacherMessagesClientPage() {
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 24,
-      },
-    },
-  };
-
   const conversations = [
     {
       id: 1,
@@ -249,6 +236,24 @@ export default function TeacherMessagesClientPage() {
       time: "14:23",
       isMe: false,
       date: "Lundi",
+    },
+    {
+      id: 13,
+      conversationId: 1,
+      sender: "Abakar Mahamat",
+      content: "Bonjour Monsieur, j'espère que vous allez bien.",
+      time: "10:15",
+      isMe: false,
+      date: "Aujourd'hui",
+    },
+    {
+      id: 14,
+      conversationId: 1,
+      sender: "Abakar Mahamat",
+      content: "Bonjour Monsieur, j'espère que vous allez bien.",
+      time: "10:15",
+      isMe: false,
+      date: "Aujourd'hui",
     },
   ];
 
@@ -474,7 +479,7 @@ export default function TeacherMessagesClientPage() {
           </CardContent>
         </Card>
 
-        <Card className="md:col-span-2 border-blue-100 dark:border-blue-900 overflow-hidden">
+        <Card className="md:col-span-2 border-blue-100 dark:border-blue-900 overflow-hidden flex flex-col">
           {selectedConversation ? (
             <>
               <CardHeader className="border-b border-blue-100 dark:border-blue-900 bg-gradient-to-r from-blue-50 to-white dark:from-blue-950 dark:to-blue-900">
@@ -552,100 +557,98 @@ export default function TeacherMessagesClientPage() {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="p-0">
-                <div className="flex flex-col h-[400px]">
-                  <div className="flex-1 overflow-y-auto p-4 space-y-6">
-                    {Object.entries(messageGroups).map(([date, messages]) => (
-                      <div key={date} className="space-y-4">
-                        <div className="flex justify-center">
-                          <Badge
-                            variant="outline"
-                            className="bg-blue-50 text-blue-600 border-blue-200"
-                          >
-                            {date}
-                          </Badge>
-                        </div>
-                        {messages.map((message) => (
-                          <motion.div
-                            key={message.id}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{
-                              type: "spring",
-                              stiffness: 300,
-                              damping: 24,
-                            }}
-                            className={`flex ${
-                              message.isMe ? "justify-end" : "justify-start"
+              <CardContent className="p-0 flex-1 flex flex-col">
+                <div className="flex-1 overflow-y-auto p-4 space-y-6">
+                  {Object.entries(messageGroups).map(([date, messages]) => (
+                    <div key={date} className="space-y-4">
+                      <div className="flex justify-center">
+                        <Badge
+                          variant="outline"
+                          className="bg-blue-50 text-blue-600 border-blue-200"
+                        >
+                          {date}
+                        </Badge>
+                      </div>
+                      {messages.map((message) => (
+                        <motion.div
+                          key={message.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 24,
+                          }}
+                          className={`flex ${
+                            message.isMe ? "justify-end" : "justify-start"
+                          }`}
+                        >
+                          {!message.isMe && (
+                            <Avatar className="h-8 w-8 mr-2 mt-1 border border-blue-100">
+                              <AvatarImage
+                                src={
+                                  selectedConversationData?.avatar ||
+                                  "/placeholder.svg"
+                                }
+                                alt={selectedConversationData?.name}
+                              />
+                              <AvatarFallback className="bg-blue-100 text-blue-800 text-xs">
+                                {selectedConversationData?.name.charAt(0)}
+                              </AvatarFallback>
+                            </Avatar>
+                          )}
+                          <div
+                            className={`max-w-[80%] rounded-lg p-3 ${
+                              message.isMe
+                                ? "bg-blue-600 text-white"
+                                : "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-50"
                             }`}
                           >
-                            {!message.isMe && (
-                              <Avatar className="h-8 w-8 mr-2 mt-1 border border-blue-100">
-                                <AvatarImage
-                                  src={
-                                    selectedConversationData?.avatar ||
-                                    "/placeholder.svg"
-                                  }
-                                  alt={selectedConversationData?.name}
-                                />
-                                <AvatarFallback className="bg-blue-100 text-blue-800 text-xs">
-                                  {selectedConversationData?.name.charAt(0)}
-                                </AvatarFallback>
-                              </Avatar>
-                            )}
-                            <div
-                              className={`max-w-[80%] rounded-lg p-3 ${
-                                message.isMe
-                                  ? "bg-blue-600 text-white"
-                                  : "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-50"
-                              }`}
-                            >
-                              <p>{message.content}</p>
-                              <div className="flex items-center justify-end gap-1 mt-1">
-                                <Clock
-                                  className={`h-3 w-3 ${
-                                    message.isMe
-                                      ? "text-white/70"
-                                      : "text-muted-foreground"
-                                  }`}
-                                />
-                                <p
-                                  className={`text-xs ${
-                                    message.isMe
-                                      ? "text-white/70"
-                                      : "text-muted-foreground"
-                                  }`}
-                                >
-                                  {message.time}
-                                </p>
-                                {message.isMe && (
-                                  <CheckCircle className="h-3 w-3 text-white/70 ml-1" />
-                                )}
-                              </div>
+                            <p>{message.content}</p>
+                            <div className="flex items-center justify-end gap-1 mt-1">
+                              <Clock
+                                className={`h-3 w-3 ${
+                                  message.isMe
+                                    ? "text-white/70"
+                                    : "text-muted-foreground"
+                                }`}
+                              />
+                              <p
+                                className={`text-xs ${
+                                  message.isMe
+                                    ? "text-white/70"
+                                    : "text-muted-foreground"
+                                }`}
+                              >
+                                {message.time}
+                              </p>
+                              {message.isMe && (
+                                <CheckCircle className="h-3 w-3 text-white/70 ml-1" />
+                              )}
                             </div>
-                          </motion.div>
-                        ))}
-                      </div>
-                    ))}
-                    <div ref={messagesEndRef} />
-                  </div>
-                  <div className="p-4 border-t border-blue-100 dark:border-blue-900">
-                    <div className="flex gap-2">
-                      <Textarea
-                        placeholder="Écrivez votre message..."
-                        value={messageText}
-                        onChange={(e) => setMessageText(e.target.value)}
-                        className="min-h-[80px] rounded-lg border-blue-200 focus:ring-blue-500 resize-none"
-                      />
-                      <Button
-                        onClick={handleSendMessage}
-                        className="self-end bg-blue-600 hover:bg-blue-700 text-white rounded-full"
-                        disabled={!messageText.trim()}
-                      >
-                        <Send className="h-4 w-4 mr-2" />
-                        Envoyer
-                      </Button>
+                          </div>
+                        </motion.div>
+                      ))}
                     </div>
+                  ))}
+                  <div ref={messagesEndRef} />
+                </div>
+                <div className="p-4 border-t border-blue-100 dark:border-blue-900 mt-auto">
+                  <div className="flex gap-2">
+                    <Textarea
+                      placeholder="Écrivez votre message..."
+                      value={messageText}
+                      onChange={(e) => setMessageText(e.target.value)}
+                      className="min-h-[80px] rounded-lg border-blue-200 focus:ring-blue-500 resize-none"
+                    />
+                    <Button
+                      onClick={handleSendMessage}
+                      className="self-end bg-blue-600 hover:bg-blue-700 text-white rounded-full"
+                      disabled={!messageText.trim()}
+                    >
+                      <Send className="h-4 w-4 mr-2" />
+                      Envoyer
+                    </Button>
                   </div>
                 </div>
               </CardContent>

@@ -18,7 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { StudentSchedule } from "@/components/dashboard/student-schedule";
+import { ClassSchedule } from "@/components/dashboard/student-schedule";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
@@ -134,7 +134,7 @@ export default function StudentClassesPage() {
           </CardHeader>
           <CardContent>
             <div className="h-[400px]">
-              <StudentSchedule />
+              <ClassSchedule />
             </div>
           </CardContent>
         </Card>

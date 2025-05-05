@@ -21,7 +21,7 @@ import {
   FileText,
   Home,
 } from "lucide-react";
-import { StudentSchedule } from "@/components/dashboard/student-schedule";
+import { ClassSchedule } from "@/components/dashboard/student-schedule";
 import { StudentGrades } from "@/components/dashboard/student-grades";
 import { StudentAttendance } from "@/components/dashboard/student-attendance";
 import Link from "next/link";
@@ -231,7 +231,7 @@ export default function StudentDashboard() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-6">
-                <StudentSchedule />
+                <ClassSchedule />
               </CardContent>
             </Card>
           </TabsContent>
