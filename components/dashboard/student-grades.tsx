@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowUp, ArrowDown, Minus, TrendingUp, Award } from 'lucide-react'
 
 // Données d'exemple
-const terms = ["Trimestre 1", "Trimestre 2", "Trimestre 3"]
+const terms: Array<keyof typeof grades> = ["Trimestre 1", "Trimestre 2", "Trimestre 3"]
 
 const grades = {
   "Trimestre 1": [
@@ -35,8 +35,8 @@ const grades = {
 }
 
 export function StudentGrades() {
-  const calculateAverage = (termGrades) => {
-    if (termGrades.length === 0) return 0
+  const calculateAverage = (termGrades: { subject: string; grade: number; classAverage: number; highestGrade: number; rank: number; trend: string }[]) => {
+    if (termGrades.length === 0) return "0"
     const sum = termGrades.reduce((acc, grade) => acc + grade.grade, 0)
     return (sum / termGrades.length).toFixed(1)
   }
@@ -67,7 +67,7 @@ export function StudentGrades() {
   return (
     <Tabs defaultValue="Trimestre 1">
       <TabsList className="mb-4">
-        {terms.map((term) => (
+        {terms.map((term: keyof typeof grades) => (
           <TabsTrigger key={term} value={term}>
             {term}
           </TabsTrigger>
