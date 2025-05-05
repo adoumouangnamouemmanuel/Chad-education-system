@@ -157,12 +157,12 @@ function SidebarItem({
                         )}
                       >
                         <span>{item.label}</span>
-                        {item.badge && (
+                        {"badge" in item && item.badge && (
                           <Badge
                             variant="outline"
                             className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:border-blue-800"
                           >
-                            {item.badge}
+                            {item.badge && item.badge}
                           </Badge>
                         )}
                       </Link>
@@ -221,7 +221,17 @@ export default function Sidebar({ userRole }: SidebarProps) {
   }, [pathname]);
 
   // Define sidebar items based on role
-  const getSidebarItemsByRole = (role: UserRole, currentPath: string) => {
+  interface SidebarItemType {
+    icon: React.ReactNode;
+    label: string;
+    href: string;
+    active: boolean;
+    subItems?: { label: string; href: string; badge?: number }[];
+    badge?: number;
+    isNew?: boolean;
+  }
+
+  const getSidebarItemsByRole = (role: UserRole, currentPath: string): SidebarItemType[] => {
     switch (role) {
       case "minister":
         return [
@@ -735,9 +745,9 @@ export default function Sidebar({ userRole }: SidebarProps) {
                 label={item.label}
                 href={item.href}
                 active={item.active}
-                subItems={item.subItems}
+                subItems={"subItems" in item ? item.subItems : undefined}
                 pathname={pathname}
-                badge={item.badge}
+                badge={"badge" in item ? item.badge : undefined}
                 isNew={item.isNew}
               />
             )}
