@@ -210,7 +210,7 @@ export default function TeacherDashboard() {
               transition: { type: "spring", stiffness: 300 },
             }}
           >
-            <Card className="border-blue-100 dark:border-blue-900 overflow-hidden">
+            <Card className="border-blue-100 dark:border-blue-900 overflow-hidden h-full">
               <div className={`h-1 bg-${stat.color}-500`}></div>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
