@@ -252,7 +252,6 @@ interface SidebarProps {
 
 export default function Sidebar({ userRole, onCollapse }: SidebarProps) {
   const pathname = usePathname();
-  const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [unreadMessages, setUnreadMessages] = useState(3);
   const [unreadNotifications, setUnreadNotifications] = useState(2);
@@ -619,13 +618,13 @@ export default function Sidebar({ userRole, onCollapse }: SidebarProps) {
             active: currentPath.startsWith(`/dashboard/student/assignments`),
             badge: 2,
           },
-          // {
-          //   icon: <MessageSquare />,
-          //   label: "Messages",
-          //   href: `/dashboard/student/messages`,
-          //   active: currentPath.startsWith(`/dashboard/student/messages`),
-          //   badge: unreadMessages,
-          // },
+          {
+            icon: <MessageSquare />,
+            label: "Messages",
+            href: `/dashboard/student/messages`,
+            active: currentPath.startsWith(`/dashboard/student/messages`),
+            badge: unreadMessages,
+          },
           {
             icon: <Bell />,
             label: "Notifications",
