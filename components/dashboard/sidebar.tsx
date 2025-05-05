@@ -841,7 +841,7 @@ export default function Sidebar({ userRole, onCollapse }: SidebarProps) {
         )}
       </div>
 
-      {!isCollapsed && (
+      {/* {!isCollapsed && (
         <div className="p-4 text-center text-xs text-muted-foreground border-t border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-center gap-1">
             <HelpCircle className="h-3 w-3" />
@@ -854,7 +854,7 @@ export default function Sidebar({ userRole, onCollapse }: SidebarProps) {
           </div>
           <p className="mt-1">© 2023 Ministère de l'Éducation</p>
         </div>
-      )}
+      )} */}
     </motion.div>
   );
 }
