@@ -171,10 +171,10 @@ export default function TeacherGradesPage() {
               <span className="text-sm">Moyenne de la classe: 14.5/20</span>
             </div>
           </div>
-          <Button className="rounded-full bg-blue-600 hover:bg-blue-700 text-white">
+          {/* <Button className="rounded-full bg-blue-600 hover:bg-blue-700 text-white">
             <Save className="mr-2 h-4 w-4" />
             Enregistrer les notes
-          </Button>
+          </Button> */}
         </CardFooter>
       </Card>
     </div>
