@@ -1,4 +1,7 @@
-import type { Metadata } from "next";
+"use client";
+
+import { motion } from "framer-motion";
+import { Home } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -17,177 +20,213 @@ import {
 import { Button } from "@/components/ui/button";
 import { StudentSchedule } from "@/components/dashboard/student-schedule";
 import { Badge } from "@/components/ui/badge";
-
-export const metadata: Metadata = {
-  title: "My Classes | Student Dashboard",
-  description: "View your classes and schedule",
-};
+import Link from "next/link";
 
 export default function StudentClassesPage() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 24,
+      },
+    },
+  };
+
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+    <motion.div
+      className="flex flex-col gap-6"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      {/* Breadcrumb */}
+      <motion.div
+        variants={itemVariants}
+        className="flex items-center text-sm text-muted-foreground mb-2"
+      >
+        <Link
+          href="/"
+          className="flex items-center hover:text-primary transition-colors"
+        >
+          <Home className="h-4 w-4 mr-1" />
+          Accueil
+        </Link>
+        <span className="mx-2">/</span>
+        <Link
+          href="/dashboard/student"
+          className="hover:text-primary transition-colors"
+        >
+          Tableau de bord
+        </Link>
+        <span className="mx-2">/</span>
+        <span>Mes Classes</span>
+      </motion.div>
+
+      <motion.div
+        variants={itemVariants}
+        className="flex items-center justify-between"
+      >
         <h1 className="text-3xl font-bold tracking-tight">Mes Classes</h1>
-      </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Total des cours
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">8</div>
-            <p className="text-xs text-muted-foreground">
-              Cours pour ce trimestre
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Heures par semaine
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">32</div>
-            <p className="text-xs text-muted-foreground">
-              Heures de cours hebdomadaires
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Moyenne générale
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">14.5/20</div>
-            <p className="text-xs text-muted-foreground">
-              Pour le trimestre en cours
-            </p>
-          </CardContent>
-        </Card>
+        {[
+          {
+            title: "Total des cours",
+            value: "8",
+            description: "Cours pour ce trimestre",
+          },
+          {
+            title: "Heures par semaine",
+            value: "32",
+            description: "Heures de cours hebdomadaires",
+          },
+          {
+            title: "Moyenne générale",
+            value: "14.5/20",
+            description: "Pour le trimestre en cours",
+          },
+        ].map((stat, index) => (
+          <motion.div
+            key={stat.title}
+            variants={itemVariants}
+            whileHover={{ y: -3 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          >
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  {stat.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold">{stat.value}</div>
+                <p className="text-xs text-muted-foreground">
+                  {stat.description}
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Emploi du temps</CardTitle>
-          <CardDescription>Votre emploi du temps hebdomadaire</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[400px]">
-            <StudentSchedule />
-          </div>
-        </CardContent>
-      </Card>
+      <motion.div variants={itemVariants}>
+        <Card>
+          <CardHeader>
+            <CardTitle>Emploi du temps</CardTitle>
+            <CardDescription>
+              Votre emploi du temps hebdomadaire
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[400px]">
+              <StudentSchedule />
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Mes cours</CardTitle>
-          <CardDescription>Liste des cours pour ce trimestre</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Matière</TableHead>
-                <TableHead>Enseignant</TableHead>
-                <TableHead>Horaire</TableHead>
-                <TableHead>Salle</TableHead>
-                <TableHead>Moyenne</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">Mathématiques</TableCell>
-                <TableCell>Dr. Abdoulaye Hassan</TableCell>
-                <TableCell>Lun, Mer, Ven 8h-10h</TableCell>
-                <TableCell>Salle 12</TableCell>
-                <TableCell>
-                  <Badge variant="outline">15/20</Badge>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button variant="outline" size="sm" asChild>
-                    <a href="/dashboard/student/grades?subject=math">
-                      Voir les notes
-                    </a>
-                  </Button>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">Français</TableCell>
-                <TableCell>Mme. Khadija Moussa</TableCell>
-                <TableCell>Mar, Jeu 10h-12h</TableCell>
-                <TableCell>Salle 15</TableCell>
-                <TableCell>
-                  <Badge variant="outline">16/20</Badge>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button variant="outline" size="sm" asChild>
-                    <a href="/dashboard/student/grades?subject=french">
-                      Voir les notes
-                    </a>
-                  </Button>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">Physique-Chimie</TableCell>
-                <TableCell>M. Ibrahim Saleh</TableCell>
-                <TableCell>Lun, Mer 14h-16h</TableCell>
-                <TableCell>Labo 2</TableCell>
-                <TableCell>
-                  <Badge variant="outline">13/20</Badge>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button variant="outline" size="sm" asChild>
-                    <a href="/dashboard/student/grades?subject=physics">
-                      Voir les notes
-                    </a>
-                  </Button>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">Anglais</TableCell>
-                <TableCell>M. John Smith</TableCell>
-                <TableCell>Mar, Jeu 14h-16h</TableCell>
-                <TableCell>Salle 8</TableCell>
-                <TableCell>
-                  <Badge variant="outline">14/20</Badge>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button variant="outline" size="sm" asChild>
-                    <a href="/dashboard/student/grades?subject=english">
-                      Voir les notes
-                    </a>
-                  </Button>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">
-                  Histoire-Géographie
-                </TableCell>
-                <TableCell>M. Mahamat Ali</TableCell>
-                <TableCell>Ven 14h-18h</TableCell>
-                <TableCell>Salle 5</TableCell>
-                <TableCell>
-                  <Badge variant="outline">15/20</Badge>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button variant="outline" size="sm" asChild>
-                    <a href="/dashboard/student/grades?subject=history">
-                      Voir les notes
-                    </a>
-                  </Button>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-    </div>
+      <motion.div variants={itemVariants}>
+        <Card>
+          <CardHeader>
+            <CardTitle>Mes cours</CardTitle>
+            <CardDescription>Liste des cours pour ce trimestre</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Matière</TableHead>
+                    <TableHead>Enseignant</TableHead>
+                    <TableHead>Horaire</TableHead>
+                    <TableHead>Salle</TableHead>
+                    <TableHead>Moyenne</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {[
+                    {
+                      subject: "Mathématiques",
+                      teacher: "Dr. Abdoulaye Hassan",
+                      schedule: "Lun, Mer, Ven 8h-10h",
+                      room: "Salle 12",
+                      grade: "15/20",
+                    },
+                    {
+                      subject: "Français",
+                      teacher: "Mme. Khadija Moussa",
+                      schedule: "Mar, Jeu 10h-12h",
+                      room: "Salle 15",
+                      grade: "16/20",
+                    },
+                    {
+                      subject: "Physique-Chimie",
+                      teacher: "M. Ibrahim Saleh",
+                      schedule: "Lun, Mer 14h-16h",
+                      room: "Labo 2",
+                      grade: "13/20",
+                    },
+                    {
+                      subject: "Anglais",
+                      teacher: "M. John Smith",
+                      schedule: "Mar, Jeu 14h-16h",
+                      room: "Salle 8",
+                      grade: "14/20",
+                    },
+                    {
+                      subject: "Histoire-Géographie",
+                      teacher: "M. Mahamat Ali",
+                      schedule: "Ven 14h-18h",
+                      room: "Salle 5",
+                      grade: "15/20",
+                    },
+                  ].map((course, index) => (
+                    <TableRow
+                      key={index}
+                      className="hover:bg-muted/50 transition-colors"
+                    >
+                      <TableCell className="font-medium">
+                        {course.subject}
+                      </TableCell>
+                      <TableCell>{course.teacher}</TableCell>
+                      <TableCell>{course.schedule}</TableCell>
+                      <TableCell>{course.room}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{course.grade}</Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button variant="outline" size="sm" asChild>
+                          <Link
+                            href={`/dashboard/student/grades?subject=${course.subject.toLowerCase()}`}
+                          >
+                            Voir les notes
+                          </Link>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+    </motion.div>
   );
 }

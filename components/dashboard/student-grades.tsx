@@ -1,35 +1,37 @@
 "use client"
 
+import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
+import { ArrowUp, ArrowDown, Minus, TrendingUp, Award } from 'lucide-react'
 
-// Sample data
-const terms = ["Term 1", "Term 2", "Term 3"]
+// Données d'exemple
+const terms = ["Trimestre 1", "Trimestre 2", "Trimestre 3"]
 
 const grades = {
-  "Term 1": [
-    { subject: "Mathematics", grade: 16, classAverage: 12.5, highestGrade: 18, rank: 3 },
-    { subject: "Physics", grade: 15, classAverage: 11.8, highestGrade: 17, rank: 2 },
-    { subject: "Chemistry", grade: 14, classAverage: 12.2, highestGrade: 16, rank: 4 },
-    { subject: "Biology", grade: 13, classAverage: 12.0, highestGrade: 17, rank: 5 },
-    { subject: "French", grade: 12, classAverage: 11.5, highestGrade: 16, rank: 8 },
-    { subject: "English", grade: 17, classAverage: 13.2, highestGrade: 18, rank: 2 },
-    { subject: "History", grade: 14, classAverage: 12.8, highestGrade: 17, rank: 6 },
-    { subject: "Geography", grade: 15, classAverage: 13.0, highestGrade: 18, rank: 4 },
+  "Trimestre 1": [
+    { subject: "Mathématiques", grade: 16, classAverage: 12.5, highestGrade: 18, rank: 3, trend: "up" },
+    { subject: "Physique", grade: 15, classAverage: 11.8, highestGrade: 17, rank: 2, trend: "up" },
+    { subject: "Chimie", grade: 14, classAverage: 12.2, highestGrade: 16, rank: 4, trend: "stable" },
+    { subject: "Biologie", grade: 13, classAverage: 12.0, highestGrade: 17, rank: 5, trend: "down" },
+    { subject: "Français", grade: 12, classAverage: 11.5, highestGrade: 16, rank: 8, trend: "down" },
+    { subject: "Anglais", grade: 17, classAverage: 13.2, highestGrade: 18, rank: 2, trend: "up" },
+    { subject: "Histoire", grade: 14, classAverage: 12.8, highestGrade: 17, rank: 6, trend: "stable" },
+    { subject: "Géographie", grade: 15, classAverage: 13.0, highestGrade: 18, rank: 4, trend: "up" },
   ],
-  "Term 2": [
-    { subject: "Mathematics", grade: 17, classAverage: 12.8, highestGrade: 19, rank: 2 },
-    { subject: "Physics", grade: 16, classAverage: 12.0, highestGrade: 18, rank: 2 },
-    { subject: "Chemistry", grade: 15, classAverage: 12.5, highestGrade: 17, rank: 3 },
-    { subject: "Biology", grade: 14, classAverage: 12.2, highestGrade: 18, rank: 4 },
-    { subject: "French", grade: 13, classAverage: 11.8, highestGrade: 17, rank: 6 },
-    { subject: "English", grade: 18, classAverage: 13.5, highestGrade: 19, rank: 1 },
-    { subject: "History", grade: 15, classAverage: 13.0, highestGrade: 18, rank: 4 },
-    { subject: "Geography", grade: 16, classAverage: 13.2, highestGrade: 19, rank: 3 },
+  "Trimestre 2": [
+    { subject: "Mathématiques", grade: 17, classAverage: 12.8, highestGrade: 19, rank: 2, trend: "up" },
+    { subject: "Physique", grade: 16, classAverage: 12.0, highestGrade: 18, rank: 2, trend: "up" },
+    { subject: "Chimie", grade: 15, classAverage: 12.5, highestGrade: 17, rank: 3, trend: "up" },
+    { subject: "Biologie", grade: 14, classAverage: 12.2, highestGrade: 18, rank: 4, trend: "up" },
+    { subject: "Français", grade: 13, classAverage: 11.8, highestGrade: 17, rank: 6, trend: "up" },
+    { subject: "Anglais", grade: 18, classAverage: 13.5, highestGrade: 19, rank: 1, trend: "up" },
+    { subject: "Histoire", grade: 15, classAverage: 13.0, highestGrade: 18, rank: 4, trend: "up" },
+    { subject: "Géographie", grade: 16, classAverage: 13.2, highestGrade: 19, rank: 3, trend: "up" },
   ],
-  "Term 3": [],
+  "Trimestre 3": [],
 }
 
 export function StudentGrades() {
@@ -39,8 +41,31 @@ export function StudentGrades() {
     return (sum / termGrades.length).toFixed(1)
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 24,
+      },
+    },
+  }
+
   return (
-    <Tabs defaultValue="Term 1">
+    <Tabs defaultValue="Trimestre 1">
       <TabsList className="mb-4">
         {terms.map((term) => (
           <TabsTrigger key={term} value={term}>
@@ -52,81 +77,122 @@ export function StudentGrades() {
       {terms.map((term) => (
         <TabsContent key={term} value={term}>
           {grades[term].length > 0 ? (
-            <div className="space-y-6">
+            <motion.div className="space-y-6" initial="hidden" animate="visible" variants={containerVariants}>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="text-sm font-medium text-muted-foreground">Term Average</div>
-                    <div className="text-3xl font-bold mt-1">{calculateAverage(grades[term])}/20</div>
-                    <div className="mt-2">
-                      <Progress value={Number.parseFloat(calculateAverage(grades[term])) * 5} className="h-2" />
-                    </div>
-                  </CardContent>
-                </Card>
+                <motion.div variants={itemVariants} whileHover={{ y: -3 }} transition={{ type: "spring" }}>
+                  <Card>
+                    <CardContent className="p-6">
+                      <div className="text-sm font-medium text-muted-foreground">Moyenne du Trimestre</div>
+                      <div className="text-3xl font-bold mt-1">{calculateAverage(grades[term])}/20</div>
+                      <div className="mt-2">
+                        <Progress value={Number.parseFloat(calculateAverage(grades[term])) * 5} className="h-2" />
+                      </div>
+                      <div className="flex items-center gap-1 mt-2 text-xs text-emerald-600">
+                        <TrendingUp className="h-3 w-3" />
+                        <span>+1.2 points par rapport au trimestre précédent</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
 
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="text-sm font-medium text-muted-foreground">Class Rank</div>
-                    <div className="text-3xl font-bold mt-1">
-                      {grades[term].length > 0 ? Math.min(...grades[term].map((g) => g.rank)) : "N/A"}
-                      <span className="text-lg text-muted-foreground">/35</span>
-                    </div>
-                  </CardContent>
-                </Card>
+                <motion.div variants={itemVariants} whileHover={{ y: -3 }} transition={{ type: "spring" }}>
+                  <Card>
+                    <CardContent className="p-6">
+                      <div className="text-sm font-medium text-muted-foreground">Classement</div>
+                      <div className="text-3xl font-bold mt-1">
+                        {grades[term].length > 0 ? Math.min(...grades[term].map((g) => g.rank)) : "N/A"}
+                        <span className="text-lg text-muted-foreground">/35</span>
+                      </div>
+                      <div className="flex items-center gap-1 mt-2 text-xs text-emerald-600">
+                        <Award className="h-3 w-3" />
+                        <span>Parmi les 10% meilleurs élèves</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
 
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="text-sm font-medium text-muted-foreground">Best Subject</div>
-                    <div className="text-xl font-bold mt-1">
-                      {grades[term].length > 0
-                        ? grades[term].reduce((best, current) => (current.grade > best.grade ? current : best)).subject
-                        : "N/A"}
-                    </div>
-                  </CardContent>
-                </Card>
+                <motion.div variants={itemVariants} whileHover={{ y: -3 }} transition={{ type: "spring" }}>
+                  <Card>
+                    <CardContent className="p-6">
+                      <div className="text-sm font-medium text-muted-foreground">Meilleure Matière</div>
+                      <div className="text-xl font-bold mt-1">
+                        {grades[term].length > 0
+                          ? grades[term].reduce((best, current) => (current.grade > best.grade ? current : best))
+                              .subject
+                          : "N/A"}
+                      </div>
+                      <div className="flex items-center gap-1 mt-2 text-xs text-primary">
+                        <Award className="h-3 w-3" />
+                        <span>18/20 en Anglais</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               </div>
 
-              <div className="rounded-md border">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b bg-muted/50">
-                      <th className="h-10 px-4 text-left align-middle font-medium">Subject</th>
-                      <th className="h-10 px-4 text-center align-middle font-medium">Your Grade</th>
-                      <th className="h-10 px-4 text-center align-middle font-medium">Class Average</th>
-                      <th className="h-10 px-4 text-center align-middle font-medium">Highest Grade</th>
-                      <th className="h-10 px-4 text-center align-middle font-medium">Rank</th>
-                      <th className="h-10 px-4 text-center align-middle font-medium">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {grades[term].map((grade, index) => (
-                      <tr key={index} className="border-b">
-                        <td className="p-4 align-middle font-medium">{grade.subject}</td>
-                        <td className="p-4 align-middle text-center">{grade.grade}/20</td>
-                        <td className="p-4 align-middle text-center">{grade.classAverage}/20</td>
-                        <td className="p-4 align-middle text-center">{grade.highestGrade}/20</td>
-                        <td className="p-4 align-middle text-center">{grade.rank}</td>
-                        <td className="p-4 align-middle text-center">
-                          <Badge
-                            className={
-                              grade.grade >= 14
-                                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-                                : grade.grade >= 10
-                                  ? "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300"
-                                  : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
-                            }
-                          >
-                            {grade.grade >= 14 ? "Excellent" : grade.grade >= 10 ? "Satisfactory" : "Needs Improvement"}
-                          </Badge>
-                        </td>
+              <motion.div variants={itemVariants} className="rounded-md border overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b bg-muted/50">
+                        <th className="h-10 px-4 text-left align-middle font-medium">Matière</th>
+                        <th className="h-10 px-4 text-center align-middle font-medium">Votre Note</th>
+                        <th className="h-10 px-4 text-center align-middle font-medium">Moyenne de Classe</th>
+                        <th className="h-10 px-4 text-center align-middle font-medium">Note la Plus Élevée</th>
+                        <th className="h-10 px-4 text-center align-middle font-medium">Classement</th>
+                        <th className="h-10 px-4 text-center align-middle font-medium">Tendance</th>
+                        <th className="h-10 px-4 text-center align-middle font-medium">Statut</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+                    </thead>
+                    <tbody>
+                      {grades[term].map((grade, index) => (
+                        <motion.tr
+                          key={index}
+                          className="border-b hover:bg-muted/50 transition-colors"
+                          variants={itemVariants}
+                          whileHover={{ backgroundColor: "rgba(0, 0, 0, 0.02)" }}
+                        >
+                          <td className="p-4 align-middle font-medium">{grade.subject}</td>
+                          <td className="p-4 align-middle text-center font-semibold">{grade.grade}/20</td>
+                          <td className="p-4 align-middle text-center text-muted-foreground">{grade.classAverage}/20</td>
+                          <td className="p-4 align-middle text-center text-muted-foreground">{grade.highestGrade}/20</td>
+                          <td className="p-4 align-middle text-center font-medium">{grade.rank}</td>
+                          <td className="p-4 align-middle text-center">
+                            {grade.trend === "up" ? (
+                              <span className="inline-flex items-center text-emerald-600">
+                                <ArrowUp className="h-4 w-4 mr-1" />
+                                En hausse
+                              </span>
+                            ) : grade.trend === "down" ? (
+                              <span className="inline-flex items-center text-rose-600">
+                                <ArrowDown className="h-4 w-4 mr-1" />
+                                En baisse
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center text-amber-600">
+                                <Minus className="h-4 w-4 mr-1" />
+                                Stable
+                              </span>
+                            )}
+                          </td>
+                          <td className="p-4 align-middle text-center">
+                            <Badge
+                              variant={
+                                grade.grade >= 14 ? "default" : grade.grade >= 10 ? "secondary" : "destructive"
+                              }
+                            >
+                              {grade.grade >= 14 ? "Excellent" : grade.grade >= 10 ? "Satisfaisant" : "À améliorer"}
+                            </Badge>
+                          </td>
+                        </motion.tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </motion.div>
+            </motion.div>
           ) : (
-            <div className="text-center py-12 text-muted-foreground">No grades available for this term yet.</div>
+            <div className="text-center py-12 text-muted-foreground">Aucune note disponible pour ce trimestre.</div>
           )}
         </TabsContent>
       ))}
