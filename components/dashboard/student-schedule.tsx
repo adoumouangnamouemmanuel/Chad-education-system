@@ -1,31 +1,38 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { Clock, MapPin, User } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
+import { Clock, MapPin, Users } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-// Données d'exemple pour l'emploi du temps
+// Sample schedule data
 const schedule = [
   {
     day: "Lundi",
     periods: [
       {
         time: "08:00 - 10:00",
+        class: "Terminal D",
         subject: "Mathématiques",
-        teacher: "M. Jean Dupont",
         room: "Salle 12",
       },
       {
         time: "10:15 - 12:15",
-        subject: "Physique",
-        teacher: "M. Ibrahim Hassan",
-        room: "Labo 2",
+        class: "Première C",
+        subject: "Mathématiques",
+        room: "Salle 8",
       },
       {
         time: "14:00 - 16:00",
-        subject: "Français",
-        teacher: "Mme. Marie Koné",
-        room: "Salle 8",
+        class: "Seconde A",
+        subject: "Mathématiques",
+        room: "Salle 5",
       },
     ],
   },
@@ -34,21 +41,15 @@ const schedule = [
     periods: [
       {
         time: "08:00 - 10:00",
-        subject: "Chimie",
-        teacher: "M. Ibrahim Hassan",
-        room: "Labo 1",
+        class: "Terminal C",
+        subject: "Physique",
+        room: "Labo 2",
       },
       {
         time: "10:15 - 12:15",
-        subject: "Anglais",
-        teacher: "Mme. Fatima Ousmane",
+        class: "Première D",
+        subject: "Mathématiques",
         room: "Salle 9",
-      },
-      {
-        time: "14:00 - 16:00",
-        subject: "Histoire",
-        teacher: "M. Ahmed Mahamat",
-        room: "Salle 5",
       },
     ],
   },
@@ -57,15 +58,15 @@ const schedule = [
     periods: [
       {
         time: "08:00 - 10:00",
+        class: "Terminal D",
         subject: "Mathématiques",
-        teacher: "M. Jean Dupont",
         room: "Salle 12",
       },
       {
         time: "10:15 - 12:15",
-        subject: "Biologie",
-        teacher: "M. Ibrahim Hassan",
-        room: "Labo 3",
+        class: "Seconde A",
+        subject: "Mathématiques",
+        room: "Salle 5",
       },
     ],
   },
@@ -74,21 +75,21 @@ const schedule = [
     periods: [
       {
         time: "08:00 - 10:00",
-        subject: "Géographie",
-        teacher: "Mme. Fatima Ousmane",
-        room: "Salle 7",
+        class: "Première C",
+        subject: "Mathématiques",
+        room: "Salle 8",
       },
       {
         time: "10:15 - 12:15",
+        class: "Terminal C",
         subject: "Physique",
-        teacher: "M. Ibrahim Hassan",
         room: "Labo 2",
       },
       {
         time: "14:00 - 16:00",
-        subject: "Français",
-        teacher: "Mme. Marie Koné",
-        room: "Salle 8",
+        class: "Première D",
+        subject: "Mathématiques",
+        room: "Salle 9",
       },
     ],
   },
@@ -97,28 +98,22 @@ const schedule = [
     periods: [
       {
         time: "08:00 - 10:00",
+        class: "Terminal D",
         subject: "Mathématiques",
-        teacher: "M. Jean Dupont",
         room: "Salle 12",
       },
       {
         time: "10:15 - 12:15",
-        subject: "Éducation Physique",
-        teacher: "M. Ahmed Mahamat",
-        room: "Terrain de Sport",
-      },
-      {
-        time: "14:00 - 16:00",
-        subject: "Anglais",
-        teacher: "Mme. Fatima Ousmane",
-        room: "Salle 9",
+        class: "Seconde A",
+        subject: "Mathématiques",
+        room: "Salle 5",
       },
     ],
   },
 ];
 
-export function StudentSchedule() {
-  // Déterminer le jour actuel pour le mettre en évidence
+export function ClassSchedule() {
+  // Determine current day for highlighting
   const days = [
     "Dimanche",
     "Lundi",
@@ -135,20 +130,21 @@ export function StudentSchedule() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05,
+        staggerChildren: 0.08,
+        delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { y: 20, opacity: 0 },
     visible: {
-      opacity: 1,
       y: 0,
+      opacity: 1,
       transition: {
         type: "spring",
-        stiffness: 300,
-        damping: 24,
+        stiffness: 100,
+        damping: 12,
       },
     },
   };
@@ -156,61 +152,86 @@ export function StudentSchedule() {
   return (
     <motion.div
       className="grid grid-cols-1 md:grid-cols-5 gap-4"
+      variants={containerVariants}
       initial="hidden"
       animate="visible"
-      variants={containerVariants}
     >
       {schedule.map((day) => (
         <motion.div
           key={day.day}
           variants={itemVariants}
-          whileHover={{ y: -3 }}
-          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          whileHover={{
+            y: -5,
+            boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.1)",
+            transition: { type: "spring", stiffness: 300 },
+          }}
         >
           <Card
-            className={`h-full ${
-              day.day === currentDay ? "border-primary" : ""
+            className={`h-full border-blue-100 dark:border-blue-800 overflow-hidden ${
+              day.day === currentDay ? "border-l-4 border-l-blue-500" : ""
             }`}
           >
+            <div
+              className={`h-1 ${
+                day.day === currentDay ? "bg-blue-500" : "bg-blue-200"
+              }`}
+            ></div>
             <CardContent className="p-4">
               <div
-                className={`font-medium mb-3 pb-2 border-b ${
-                  day.day === currentDay
-                    ? "text-primary border-primary/30"
-                    : "border-border"
+                className={`font-semibold mb-3 pb-2 border-b border-blue-100 dark:border-blue-800 ${
+                  day.day === currentDay ? "text-blue-600" : ""
                 }`}
               >
                 {day.day}
                 {day.day === currentDay && (
-                  <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                  <Badge className="ml-2 bg-blue-100 text-blue-800 hover:bg-blue-200">
                     Aujourd'hui
-                  </span>
+                  </Badge>
                 )}
               </div>
               <div className="space-y-3">
                 {day.periods.map((period, index) => (
                   <motion.div
                     key={index}
-                    className="text-sm p-3 rounded-md bg-accent/50 hover:bg-accent transition-colors"
-                    whileHover={{ x: 3 }}
+                    className="text-sm p-3 rounded-lg bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
+                    whileHover={{ scale: 1.02, x: 5 }}
+                    transition={{ type: "spring", stiffness: 400 }}
                   >
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground mb-1">
+                    <div className="flex items-center gap-1 text-xs text-blue-600 mb-1">
                       <Clock className="h-3 w-3" />
-                      <span>{period.time}</span>
+                      {period.time}
                     </div>
-                    <div className="font-medium">{period.subject}</div>
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-                      <User className="h-3 w-3" />
-                      <span>{period.teacher}</span>
+                    <div className="font-medium text-blue-900 dark:text-blue-50">
+                      {period.subject}
                     </div>
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-                      <MapPin className="h-3 w-3" />
-                      <span>{period.room}</span>
+                    <div className="flex items-center justify-between mt-2">
+                      <div className="flex items-center gap-1">
+                        <Users className="h-3 w-3 text-blue-500" />
+                        <Badge
+                          variant="outline"
+                          className="border-blue-200 text-xs font-normal"
+                        >
+                          {period.class}
+                        </Badge>
+                      </div>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                              <MapPin className="h-3 w-3" />
+                              {period.room}
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Localisation: {period.room}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                   </motion.div>
                 ))}
                 {day.periods.length === 0 && (
-                  <div className="text-sm text-muted-foreground text-center py-4">
+                  <div className="text-sm text-muted-foreground text-center py-8 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                     Pas de cours
                   </div>
                 )}

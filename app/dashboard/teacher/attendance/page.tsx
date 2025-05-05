@@ -21,13 +21,6 @@ import {
   CardTitle,
   CardFooter,
 } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { AttendanceTracker } from "@/components/dashboard/attendance-tracker";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -80,53 +73,6 @@ export default function TeacherAttendancePage() {
           </Button>
         </div>
       </div>
-
-      <Card className="border-blue-100 dark:border-blue-900 overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-blue-50 to-white dark:from-blue-950 dark:to-blue-900">
-          <CardTitle className="text-blue-900 dark:text-blue-50 flex items-center gap-2">
-            <Users className="h-5 w-5 text-blue-500" />
-            Sélectionner une classe
-          </CardTitle>
-          <CardDescription>
-            Choisissez la classe pour faire l'appel
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Select defaultValue="terminale-a">
-                <SelectTrigger className="rounded-lg border-blue-200 focus:ring-blue-500">
-                  <SelectValue placeholder="Classe" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="terminale-a">Terminale A</SelectItem>
-                  <SelectItem value="terminale-d">Terminale D</SelectItem>
-                  <SelectItem value="1ere-c">1ère C</SelectItem>
-                  <SelectItem value="2nde-a">2nde A</SelectItem>
-                  <SelectItem value="2nde-c">2nde C</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Select defaultValue="math">
-                <SelectTrigger className="rounded-lg border-blue-200 focus:ring-blue-500">
-                  <SelectValue placeholder="Matière" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="math">Mathématiques</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Input
-                type="date"
-                defaultValue={new Date().toISOString().split("T")[0]}
-                className="rounded-lg border-blue-200 focus:ring-blue-500"
-              />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
       <Card className="border-blue-100 dark:border-blue-900 overflow-hidden">
         <CardHeader className="bg-gradient-to-r from-blue-50 to-white dark:from-blue-950 dark:to-blue-900">
