@@ -46,6 +46,7 @@ interface SidebarItemProps {
   pathname: string;
   badge?: number;
   isNew?: boolean;
+  isCollapsed: boolean;
 }
 
 function SidebarItem({
@@ -57,6 +58,7 @@ function SidebarItem({
   pathname,
   badge,
   isNew,
+  isCollapsed,
 }: SidebarItemProps) {
   const [isOpen, setIsOpen] = useState(() => {
     // Initialize open state based on whether any subitems are active
@@ -91,6 +93,45 @@ function SidebarItem({
     hidden: { opacity: 0, x: -10 },
     visible: { opacity: 1, x: 0, transition: { duration: 0.2 } },
   };
+
+  if (isCollapsed) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={itemVariants}
+              whileHover="hover"
+              className="mb-1"
+            >
+              <Link
+                href={href}
+                className={cn(
+                  "flex justify-center items-center p-2 rounded-lg transition-all relative",
+                  active
+                    ? "bg-blue-100 text-blue-900 font-semibold dark:bg-blue-950 dark:text-blue-50"
+                    : "hover:bg-blue-50 dark:hover:bg-blue-900/30"
+                )}
+              >
+                <span className="text-lg">{icon}</span>
+                {badge && (
+                  <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center bg-blue-500 text-white text-[10px] rounded-full">
+                    {badge}
+                  </Badge>
+                )}
+                {isNew && (
+                  <Badge className="absolute -top-1 -right-1 h-2 w-2 p-0 bg-blue-500 rounded-full" />
+                )}
+              </Link>
+            </motion.div>
+          </TooltipTrigger>
+          <TooltipContent side="right">{label}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
 
   return (
     <motion.div
@@ -157,12 +198,12 @@ function SidebarItem({
                         )}
                       >
                         <span>{item.label}</span>
-                        {"badge" in item && item.badge && (
+                        {item.badge && (
                           <Badge
                             variant="outline"
                             className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:border-blue-800"
                           >
-                            {item.badge && item.badge}
+                            {item.badge}
                           </Badge>
                         )}
                       </Link>
@@ -206,9 +247,10 @@ function SidebarItem({
 
 interface SidebarProps {
   userRole: UserRole;
+  onCollapse?: (collapsed: boolean) => void;
 }
 
-export default function Sidebar({ userRole }: SidebarProps) {
+export default function Sidebar({ userRole, onCollapse }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -219,6 +261,13 @@ export default function Sidebar({ userRole }: SidebarProps) {
   useEffect(() => {
     document.cookie = `currentPath=${pathname}; path=/;`;
   }, [pathname]);
+
+  // Notify parent component when sidebar collapse state changes
+  useEffect(() => {
+    if (onCollapse) {
+      onCollapse(isCollapsed);
+    }
+  }, [isCollapsed, onCollapse]);
 
   // Define sidebar items based on role
   interface SidebarItemType {
@@ -237,20 +286,26 @@ export default function Sidebar({ userRole }: SidebarProps) {
         return [
           {
             icon: <LayoutDashboard />,
-            label: "Dashboard",
+            label: "Tableau de bord",
             href: `/dashboard/minister`,
             active: currentPath === `/dashboard/minister`,
           },
           {
             icon: <Building2 />,
-            label: "Schools",
+            label: "Écoles",
             href: `/dashboard/minister/schools`,
             active: currentPath.startsWith(`/dashboard/minister/schools`),
             subItems: [
-              { label: "All Schools", href: `/dashboard/minister/schools` },
-              { label: "Add School", href: `/dashboard/minister/schools/add` },
               {
-                label: "School Needs",
+                label: "Toutes les écoles",
+                href: `/dashboard/minister/schools`,
+              },
+              {
+                label: "Ajouter une école",
+                href: `/dashboard/minister/schools/add`,
+              },
+              {
+                label: "Besoins des écoles",
                 href: `/dashboard/minister/schools/needs`,
                 badge: 5,
               },
@@ -258,17 +313,20 @@ export default function Sidebar({ userRole }: SidebarProps) {
           },
           {
             icon: <Users />,
-            label: "Teachers",
+            label: "Enseignants",
             href: `/dashboard/minister/teachers`,
             active: currentPath.startsWith(`/dashboard/minister/teachers`),
             subItems: [
-              { label: "All Teachers", href: `/dashboard/minister/teachers` },
               {
-                label: "Add Teacher",
+                label: "Tous les enseignants",
+                href: `/dashboard/minister/teachers`,
+              },
+              {
+                label: "Ajouter un enseignant",
                 href: `/dashboard/minister/teachers/add`,
               },
               {
-                label: "Transfers",
+                label: "Transferts",
                 href: `/dashboard/minister/teachers/transfers`,
                 badge: 3,
               },
@@ -276,18 +334,21 @@ export default function Sidebar({ userRole }: SidebarProps) {
           },
           {
             icon: <GraduationCap />,
-            label: "Students",
+            label: "Élèves",
             href: `/dashboard/minister/students`,
             active: currentPath.startsWith(`/dashboard/minister/students`),
             subItems: [
-              { label: "All Students", href: `/dashboard/minister/students` },
+              {
+                label: "Tous les élèves",
+                href: `/dashboard/minister/students`,
+              },
               {
                 label: "Admissions",
                 href: `/dashboard/minister/students/admissions`,
                 badge: 12,
               },
               {
-                label: "Transfers",
+                label: "Transferts",
                 href: `/dashboard/minister/students/transfers`,
                 badge: 4,
               },
@@ -301,13 +362,13 @@ export default function Sidebar({ userRole }: SidebarProps) {
           },
           {
             icon: <FileText />,
-            label: "Reports",
+            label: "Rapports",
             href: `/dashboard/minister/reports`,
             active: currentPath.startsWith(`/dashboard/minister/reports`),
           },
           {
             icon: <Settings />,
-            label: "Settings",
+            label: "Paramètres",
             href: `/dashboard/minister/settings`,
             active: currentPath.startsWith(`/dashboard/minister/settings`),
           },
@@ -317,20 +378,26 @@ export default function Sidebar({ userRole }: SidebarProps) {
         return [
           {
             icon: <LayoutDashboard />,
-            label: "Dashboard",
+            label: "Tableau de bord",
             href: `/dashboard/inspector`,
             active: currentPath === `/dashboard/inspector`,
           },
           {
             icon: <Building2 />,
-            label: "Regional Schools",
+            label: "Écoles régionales",
             href: `/dashboard/inspector/schools`,
             active: currentPath.startsWith(`/dashboard/inspector/schools`),
             subItems: [
-              { label: "All Schools", href: `/dashboard/inspector/schools` },
-              { label: "Add School", href: `/dashboard/inspector/schools/add` },
               {
-                label: "School Needs",
+                label: "Toutes les écoles",
+                href: `/dashboard/inspector/schools`,
+              },
+              {
+                label: "Ajouter une école",
+                href: `/dashboard/inspector/schools/add`,
+              },
+              {
+                label: "Besoins des écoles",
                 href: `/dashboard/inspector/schools/needs`,
                 badge: 3,
               },
@@ -338,17 +405,20 @@ export default function Sidebar({ userRole }: SidebarProps) {
           },
           {
             icon: <Users />,
-            label: "Regional Teachers",
+            label: "Enseignants régionaux",
             href: `/dashboard/inspector/teachers`,
             active: currentPath.startsWith(`/dashboard/inspector/teachers`),
             subItems: [
-              { label: "All Teachers", href: `/dashboard/inspector/teachers` },
               {
-                label: "Add Teacher",
+                label: "Tous les enseignants",
+                href: `/dashboard/inspector/teachers`,
+              },
+              {
+                label: "Ajouter un enseignant",
                 href: `/dashboard/inspector/teachers/add`,
               },
               {
-                label: "Transfers",
+                label: "Transferts",
                 href: `/dashboard/inspector/teachers/transfers`,
                 badge: 2,
               },
@@ -356,19 +426,19 @@ export default function Sidebar({ userRole }: SidebarProps) {
           },
           {
             icon: <BarChart3 />,
-            label: "Regional Performance",
+            label: "Performance régionale",
             href: `/dashboard/inspector/performance`,
             active: currentPath.startsWith(`/dashboard/inspector/performance`),
           },
           {
             icon: <FileText />,
-            label: "Regional Reports",
+            label: "Rapports régionaux",
             href: `/dashboard/inspector/reports`,
             active: currentPath.startsWith(`/dashboard/inspector/reports`),
           },
           {
             icon: <Settings />,
-            label: "Settings",
+            label: "Paramètres",
             href: `/dashboard/inspector/settings`,
             active: currentPath.startsWith(`/dashboard/inspector/settings`),
           },
@@ -378,29 +448,32 @@ export default function Sidebar({ userRole }: SidebarProps) {
         return [
           {
             icon: <LayoutDashboard />,
-            label: "Dashboard",
+            label: "Tableau de bord",
             href: `/dashboard/director`,
             active: currentPath === `/dashboard/director`,
           },
           {
             icon: <Building2 />,
-            label: "School Profile",
+            label: "Profil de l'école",
             href: `/dashboard/director/school`,
             active: currentPath.startsWith(`/dashboard/director/school`),
           },
           {
             icon: <Users />,
-            label: "Teachers",
+            label: "Enseignants",
             href: `/dashboard/director/teachers`,
             active: currentPath.startsWith(`/dashboard/director/teachers`),
             subItems: [
-              { label: "All Teachers", href: `/dashboard/director/teachers` },
               {
-                label: "Add Teacher",
+                label: "Tous les enseignants",
+                href: `/dashboard/director/teachers`,
+              },
+              {
+                label: "Ajouter un enseignant",
                 href: `/dashboard/director/teachers/add`,
               },
               {
-                label: "Transfers",
+                label: "Transferts",
                 href: `/dashboard/director/teachers/transfers`,
                 badge: 1,
               },
@@ -408,13 +481,16 @@ export default function Sidebar({ userRole }: SidebarProps) {
           },
           {
             icon: <GraduationCap />,
-            label: "Students",
+            label: "Élèves",
             href: `/dashboard/director/students`,
             active: currentPath.startsWith(`/dashboard/director/students`),
             subItems: [
-              { label: "All Students", href: `/dashboard/director/students` },
               {
-                label: "Add Student",
+                label: "Tous les élèves",
+                href: `/dashboard/director/students`,
+              },
+              {
+                label: "Ajouter un élève",
                 href: `/dashboard/director/students/add`,
               },
               {
@@ -423,7 +499,7 @@ export default function Sidebar({ userRole }: SidebarProps) {
                 badge: 8,
               },
               {
-                label: "Transfers",
+                label: "Transferts",
                 href: `/dashboard/director/students/transfers`,
                 badge: 2,
               },
@@ -431,19 +507,19 @@ export default function Sidebar({ userRole }: SidebarProps) {
           },
           {
             icon: <BarChart3 />,
-            label: "School Performance",
+            label: "Performance de l'école",
             href: `/dashboard/director/performance`,
             active: currentPath.startsWith(`/dashboard/director/performance`),
           },
           {
             icon: <FileText />,
-            label: "School Reports",
+            label: "Rapports de l'école",
             href: `/dashboard/director/reports`,
             active: currentPath.startsWith(`/dashboard/director/reports`),
           },
           {
             icon: <Settings />,
-            label: "Settings",
+            label: "Paramètres",
             href: `/dashboard/director/settings`,
             active: currentPath.startsWith(`/dashboard/director/settings`),
           },
@@ -453,25 +529,25 @@ export default function Sidebar({ userRole }: SidebarProps) {
         return [
           {
             icon: <LayoutDashboard />,
-            label: "Dashboard",
+            label: "Tableau de bord",
             href: `/dashboard/teacher`,
             active: currentPath === `/dashboard/teacher`,
           },
           {
             icon: <GraduationCap />,
-            label: "My Classes",
+            label: "Mes classes",
             href: `/dashboard/teacher/classes`,
             active: currentPath.startsWith(`/dashboard/teacher/classes`),
           },
           {
             icon: <PenLine />,
-            label: "Grade Entry",
+            label: "Saisie des notes",
             href: `/dashboard/teacher/grades`,
             active: currentPath.startsWith(`/dashboard/teacher/grades`),
           },
           {
             icon: <Clock />,
-            label: "Attendance",
+            label: "Présence",
             href: `/dashboard/teacher/attendance`,
             active: currentPath.startsWith(`/dashboard/teacher/attendance`),
           },
@@ -491,13 +567,13 @@ export default function Sidebar({ userRole }: SidebarProps) {
           },
           {
             icon: <FileText />,
-            label: "Reports",
+            label: "Rapports",
             href: `/dashboard/teacher/reports`,
             active: currentPath.startsWith(`/dashboard/teacher/reports`),
           },
           {
             icon: <Settings />,
-            label: "Settings",
+            label: "Paramètres",
             href: `/dashboard/teacher/settings`,
             active: currentPath.startsWith(`/dashboard/teacher/settings`),
           },
@@ -507,38 +583,38 @@ export default function Sidebar({ userRole }: SidebarProps) {
         return [
           {
             icon: <LayoutDashboard />,
-            label: "Dashboard",
+            label: "Tableau de bord",
             href: `/dashboard/student`,
             active: currentPath === `/dashboard/student`,
           },
           {
             icon: <User />,
-            label: "My Profile",
+            label: "Mon profil",
             href: `/dashboard/student/profile`,
             active: currentPath.startsWith(`/dashboard/student/profile`),
           },
           {
             icon: <BookOpen />,
-            label: "My Classes",
+            label: "Mes classes",
             href: `/dashboard/student/classes`,
             active: currentPath.startsWith(`/dashboard/student/classes`),
           },
           {
             icon: <BarChart3 />,
-            label: "My Grades",
+            label: "Notes",
             href: `/dashboard/student/grades`,
             active: currentPath.startsWith(`/dashboard/student/grades`),
             isNew: true,
           },
           {
             icon: <Calendar />,
-            label: "Attendance",
+            label: "Présence",
             href: `/dashboard/student/attendance`,
             active: currentPath.startsWith(`/dashboard/student/attendance`),
           },
           {
             icon: <FileText />,
-            label: "Assignments",
+            label: "Devoirs",
             href: `/dashboard/student/assignments`,
             active: currentPath.startsWith(`/dashboard/student/assignments`),
             badge: 2,
@@ -559,7 +635,7 @@ export default function Sidebar({ userRole }: SidebarProps) {
           },
           {
             icon: <Settings />,
-            label: "Settings",
+            label: "Paramètres",
             href: `/dashboard/student/settings`,
             active: currentPath.startsWith(`/dashboard/student/settings`),
           },
@@ -569,13 +645,13 @@ export default function Sidebar({ userRole }: SidebarProps) {
         return [
           {
             icon: <LayoutDashboard />,
-            label: "Dashboard",
+            label: "Tableau de bord",
             href: `/dashboard`,
             active: currentPath === `/dashboard`,
           },
           {
             icon: <Settings />,
-            label: "Settings",
+            label: "Paramètres",
             href: `/dashboard/settings`,
             active: currentPath.startsWith(`/dashboard/settings`),
           },
@@ -591,18 +667,13 @@ export default function Sidebar({ userRole }: SidebarProps) {
 
   // Animation variants
   const sidebarVariants = {
-    expanded: { width: "280px", transition: { duration: 0.3 } },
-    collapsed: { width: "80px", transition: { duration: 0.3 } },
+    expanded: { width: "16rem", transition: { duration: 0.3 } },
+    collapsed: { width: "5rem", transition: { duration: 0.3 } },
   };
 
   const logoVariants = {
     expanded: { opacity: 1, x: 0, transition: { duration: 0.3 } },
     collapsed: { opacity: 0, x: -20, transition: { duration: 0.3 } },
-  };
-
-  const iconVariants = {
-    expanded: { marginRight: "12px" },
-    collapsed: { marginRight: "0" },
   };
 
   return (
@@ -629,7 +700,7 @@ export default function Sidebar({ userRole }: SidebarProps) {
             </button>
           </TooltipTrigger>
           <TooltipContent side="right">
-            {isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            {isCollapsed ? "Développer" : "Réduire"}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -645,7 +716,7 @@ export default function Sidebar({ userRole }: SidebarProps) {
           >
             <Image
               src="/images/logo.png"
-              alt="Chad National School System"
+              alt="Système Éducatif du Tchad"
               width={40}
               height={40}
             />
@@ -662,7 +733,7 @@ export default function Sidebar({ userRole }: SidebarProps) {
             >
               Tchad{" "}
               <span className="text-blue-600 dark:text-blue-400 relative">
-                Education
+                Éducation
                 <motion.span
                   className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400"
                   initial={{ width: 0 }}
@@ -681,16 +752,16 @@ export default function Sidebar({ userRole }: SidebarProps) {
             <Avatar className="h-10 w-10 border-2 border-blue-100">
               <AvatarImage
                 src="/placeholder.svg?height=40&width=40"
-                alt="User"
+                alt="Utilisateur"
               />
               <AvatarFallback className="bg-blue-100 text-blue-800">
                 {userRole === "student"
-                  ? "AM"
+                  ? "ÉL"
                   : userRole === "teacher"
-                  ? "TE"
+                  ? "EN"
                   : userRole === "director"
                   ? "DI"
-                  : "US"}
+                  : "UT"}
               </AvatarFallback>
             </Avatar>
             <div>
@@ -701,10 +772,20 @@ export default function Sidebar({ userRole }: SidebarProps) {
                   ? "Moussa Ibrahim"
                   : userRole === "director"
                   ? "Fatima Hassan"
-                  : "Admin User"}
+                  : "Administrateur"}
               </p>
-              <p className="text-xs text-muted-foreground capitalize">
-                {userRole}
+              <p className="text-xs text-muted-foreground">
+                {userRole === "student"
+                  ? "Élève"
+                  : userRole === "teacher"
+                  ? "Enseignant"
+                  : userRole === "director"
+                  ? "Directeur"
+                  : userRole === "inspector"
+                  ? "Inspecteur"
+                  : userRole === "minister"
+                  ? "Ministre"
+                  : "Utilisateur"}
               </p>
             </div>
           </div>
@@ -713,45 +794,18 @@ export default function Sidebar({ userRole }: SidebarProps) {
 
       <div className="flex-1 overflow-auto p-4 space-y-1.5">
         {sidebarItems.map((item) => (
-          <div key={item.href} className={isCollapsed ? "relative group" : ""}>
-            {isCollapsed ? (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        "flex justify-center items-center p-2 rounded-lg transition-all",
-                        item.active
-                          ? "bg-blue-100 text-blue-900 font-semibold dark:bg-blue-950 dark:text-blue-50"
-                          : "hover:bg-blue-50 dark:hover:bg-blue-900/30"
-                      )}
-                    >
-                      <span className="text-lg">{item.icon}</span>
-                      {item.badge && (
-                        <Badge className="absolute top-0 right-0 bg-blue-500 text-white text-xs h-4 w-4 flex items-center justify-center p-0 rounded-full">
-                          {item.badge}
-                        </Badge>
-                      )}
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">{item.label}</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ) : (
-              <SidebarItem
-                key={item.href}
-                icon={item.icon}
-                label={item.label}
-                href={item.href}
-                active={item.active}
-                subItems={"subItems" in item ? item.subItems : undefined}
-                pathname={pathname}
-                badge={"badge" in item ? item.badge : undefined}
-                isNew={item.isNew}
-              />
-            )}
-          </div>
+          <SidebarItem
+            key={item.href}
+            icon={item.icon}
+            label={item.label}
+            href={item.href}
+            active={item.active}
+            subItems={item.subItems}
+            pathname={pathname}
+            badge={"badge" in item ? item.badge : undefined}
+            isNew={item.isNew}
+            isCollapsed={isCollapsed}
+          />
         ))}
       </div>
 
@@ -770,7 +824,7 @@ export default function Sidebar({ userRole }: SidebarProps) {
                   <LogOut className="h-5 w-5" />
                 </Link>
               </TooltipTrigger>
-              <TooltipContent side="right">Logout</TooltipContent>
+              <TooltipContent side="right">Déconnexion</TooltipContent>
             </Tooltip>
           </TooltipProvider>
         ) : (
@@ -782,7 +836,7 @@ export default function Sidebar({ userRole }: SidebarProps) {
             }}
           >
             <LogOut className="h-5 w-5" />
-            <span className="font-medium">Logout</span>
+            <span className="font-medium">Déconnexion</span>
           </Link>
         )}
       </div>
