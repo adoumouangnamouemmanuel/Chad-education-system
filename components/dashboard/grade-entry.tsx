@@ -28,6 +28,7 @@ import {
   CheckCircle,
   Download,
   FileText,
+  Filter,
   Save,
   Upload,
 } from "lucide-react";
@@ -40,14 +41,19 @@ import {
 
 // Sample data
 const classes = [
-  { id: "terminal-d", name: "Terminal D" },
+  { id: "terminale-a", name: "Terminale A" },
+  { id: "terminale-d", name: "Terminale D" },
   { id: "premiere-c", name: "Première C" },
   { id: "seconde-a", name: "Seconde A" },
+  { id: "seconde-c", name: "Seconde C" },
 ];
 
 const subjects = [
   { id: "math", name: "Mathématiques" },
   { id: "physics", name: "Physique" },
+  { id: "french", name: "Français" },
+  { id: "english", name: "Anglais" },
+  { id: "history", name: "Histoire-Géographie" },
 ];
 
 const terms = [
@@ -56,70 +62,113 @@ const terms = [
   { id: "term3", name: "3ème Trimestre" },
 ];
 
-const students = [
-  {
-    id: 1,
-    name: "Abakar Mahamat",
-    class: "Terminal D",
-    avatar: "/placeholder.svg?height=32&width=32",
-  },
-  {
-    id: 2,
-    name: "Fatima Ali",
-    class: "Terminal D",
-    avatar: "/placeholder.svg?height=32&width=32",
-  },
-  {
-    id: 3,
-    name: "Moussa Ousmane",
-    class: "Seconde A",
-    avatar: "/placeholder.svg?height=32&width=32",
-  },
-  {
-    id: 4,
-    name: "Amina Youssouf",
-    class: "Première C",
-    avatar: "/placeholder.svg?height=32&width=32",
-  },
-  {
-    id: 5,
-    name: "Ibrahim Adoum",
-    class: "Seconde A",
-    avatar: "/placeholder.svg?height=32&width=32",
-  },
-  {
-    id: 6,
-    name: "Hawa Mahamat",
-    class: "Terminal D",
-    avatar: "/placeholder.svg?height=32&width=32",
-  },
-  {
-    id: 7,
-    name: "Oumar Saleh",
-    class: "Terminal D",
-    avatar: "/placeholder.svg?height=32&width=32",
-  },
-  {
-    id: 8,
-    name: "Zara Abdoulaye",
-    class: "Terminal D",
-    avatar: "/placeholder.svg?height=32&width=32",
-  },
-];
+const students = {
+  "terminale-a": [
+    {
+      id: 1,
+      name: "Abakar Mahamat",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    {
+      id: 2,
+      name: "Fatima Ali",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    {
+      id: 6,
+      name: "Hawa Mahamat",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    {
+      id: 7,
+      name: "Oumar Saleh",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    {
+      id: 8,
+      name: "Zara Abdoulaye",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+  ],
+  "terminale-d": [
+    {
+      id: 9,
+      name: "Ahmed Hassan",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    {
+      id: 10,
+      name: "Mariam Idriss",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    {
+      id: 11,
+      name: "Youssouf Abdelkerim",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+  ],
+  "premiere-c": [
+    {
+      id: 4,
+      name: "Amina Youssouf",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    {
+      id: 12,
+      name: "Moussa Ibrahim",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    {
+      id: 13,
+      name: "Aisha Deby",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+  ],
+  "seconde-a": [
+    {
+      id: 3,
+      name: "Moussa Ousmane",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    {
+      id: 5,
+      name: "Ibrahim Adoum",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    {
+      id: 14,
+      name: "Khadija Mahamat",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+  ],
+  "seconde-c": [
+    {
+      id: 15,
+      name: "Ali Hassane",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    {
+      id: 16,
+      name: "Fatouma Oumar",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    {
+      id: 17,
+      name: "Mahamat Saleh",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+  ],
+};
 
 export function GradeEntry() {
-  const [selectedClass, setSelectedClass] = useState("terminal-d");
+  const [selectedClass, setSelectedClass] = useState("terminale-a");
   const [selectedSubject, setSelectedSubject] = useState("math");
   const [selectedTerm, setSelectedTerm] = useState("term1");
   const [grades, setGrades] = useState<Record<number, string>>({});
   const [errors, setErrors] = useState<Record<number, string>>({});
+  const [isFiltersVisible, setIsFiltersVisible] = useState(false);
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-
-  const filteredStudents = students.filter(
-    (student) =>
-      classes.find((c) => c.id === selectedClass)?.name === student.class
-  );
 
   const handleGradeChange = (studentId: number, value: string) => {
     // Clear error when user starts typing
@@ -146,7 +195,7 @@ export function GradeEntry() {
     const newErrors: Record<number, string> = {};
     let hasErrors = false;
 
-    filteredStudents.forEach((student) => {
+    students[selectedClass as keyof typeof students].forEach((student) => {
       const grade = grades[student.id];
 
       if (!grade || grade.trim() === "") {
@@ -166,16 +215,6 @@ export function GradeEntry() {
   };
 
   const handleSave = () => {
-    if (!selectedClass || !selectedSubject || !selectedTerm) {
-      toast({
-        title: "Informations manquantes",
-        description:
-          "Veuillez sélectionner une classe, une matière et un trimestre",
-        variant: "destructive",
-      });
-      return;
-    }
-
     if (!validateGrades()) {
       toast({
         title: "Notes invalides",
@@ -196,7 +235,7 @@ export function GradeEntry() {
   };
 
   const calculateAverage = () => {
-    const validGrades = filteredStudents
+    const validGrades = students[selectedClass as keyof typeof students]
       .map((student) => grades[student.id])
       .filter((grade) => grade && !isNaN(Number.parseFloat(grade)))
       .map((grade) => Number.parseFloat(grade));
@@ -207,139 +246,187 @@ export function GradeEntry() {
     return (sum / validGrades.length).toFixed(2);
   };
 
+  const selectedClassName =
+    classes.find((c) => c.id === selectedClass)?.name || "";
+  const selectedSubjectName =
+    subjects.find((s) => s.id === selectedSubject)?.name || "";
+  const selectedTermName = terms.find((t) => t.id === selectedTerm)?.name || "";
+
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="class" className="text-blue-700 dark:text-blue-300">
-            Classe
-          </Label>
-          <Select value={selectedClass} onValueChange={setSelectedClass}>
-            <SelectTrigger
-              id="class"
-              className="rounded-lg border-blue-200 focus:ring-blue-500"
-            >
-              <SelectValue placeholder="Sélectionner une classe" />
-            </SelectTrigger>
-            <SelectContent>
-              {classes.map((cls) => (
-                <SelectItem key={cls.id} value={cls.id}>
-                  {cls.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <h3 className="text-lg font-medium text-blue-900 dark:text-blue-50">
+            {selectedClassName} - {selectedSubjectName}
+          </h3>
+          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">
+            {selectedTermName}
+          </Badge>
         </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="subject" className="text-blue-700 dark:text-blue-300">
-            Matière
-          </Label>
-          <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-            <SelectTrigger
-              id="subject"
-              className="rounded-lg border-blue-200 focus:ring-blue-500"
-            >
-              <SelectValue placeholder="Sélectionner une matière" />
-            </SelectTrigger>
-            <SelectContent>
-              {subjects.map((subject) => (
-                <SelectItem key={subject.id} value={subject.id}>
-                  {subject.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="term" className="text-blue-700 dark:text-blue-300">
-            Trimestre
-          </Label>
-          <Select value={selectedTerm} onValueChange={setSelectedTerm}>
-            <SelectTrigger
-              id="term"
-              className="rounded-lg border-blue-200 focus:ring-blue-500"
-            >
-              <SelectValue placeholder="Sélectionner un trimestre" />
-            </SelectTrigger>
-            <SelectContent>
-              {terms.map((term) => (
-                <SelectItem key={term.id} value={term.id}>
-                  {term.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setIsFiltersVisible(!isFiltersVisible)}
+          className="rounded-full border-blue-200 hover:border-blue-400 hover:bg-blue-50"
+        >
+          <Filter className="mr-2 h-4 w-4 text-blue-600" />
+          Filtres
+        </Button>
       </div>
 
-      {selectedClass && (
-        <motion.div
-          className="rounded-md border border-blue-100 dark:border-blue-800 overflow-hidden"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <div className="bg-blue-50 dark:bg-blue-900/50 p-3 flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">
-                {filteredStudents.length} élèves
-              </Badge>
-              <div className="flex items-center gap-1 text-sm text-blue-600">
-                <FileText className="h-4 w-4" />
-                <span>Moyenne: {calculateAverage()}</span>
-              </div>
+      <AnimatePresence>
+        {isFiltersVisible && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-4 overflow-hidden"
+          >
+            <div className="space-y-2">
+              <Label
+                htmlFor="class"
+                className="text-blue-700 dark:text-blue-300"
+              >
+                Classe
+              </Label>
+              <Select value={selectedClass} onValueChange={setSelectedClass}>
+                <SelectTrigger
+                  id="class"
+                  className="rounded-lg border-blue-200 focus:ring-blue-500"
+                >
+                  <SelectValue placeholder="Sélectionner une classe" />
+                </SelectTrigger>
+                <SelectContent>
+                  {classes.map((cls) => (
+                    <SelectItem key={cls.id} value={cls.id}>
+                      {cls.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-            <div className="flex gap-2">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-blue-600 hover:text-blue-800 hover:bg-blue-100"
-                    >
-                      <Upload className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Importer des notes</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
 
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-blue-600 hover:text-blue-800 hover:bg-blue-100"
-                    >
-                      <Download className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Exporter les notes</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+            <div className="space-y-2">
+              <Label
+                htmlFor="subject"
+                className="text-blue-700 dark:text-blue-300"
+              >
+                Matière
+              </Label>
+              <Select
+                value={selectedSubject}
+                onValueChange={setSelectedSubject}
+              >
+                <SelectTrigger
+                  id="subject"
+                  className="rounded-lg border-blue-200 focus:ring-blue-500"
+                >
+                  <SelectValue placeholder="Sélectionner une matière" />
+                </SelectTrigger>
+                <SelectContent>
+                  {subjects.map((subject) => (
+                    <SelectItem key={subject.id} value={subject.id}>
+                      {subject.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                htmlFor="term"
+                className="text-blue-700 dark:text-blue-300"
+              >
+                Trimestre
+              </Label>
+              <Select value={selectedTerm} onValueChange={setSelectedTerm}>
+                <SelectTrigger
+                  id="term"
+                  className="rounded-lg border-blue-200 focus:ring-blue-500"
+                >
+                  <SelectValue placeholder="Sélectionner un trimestre" />
+                </SelectTrigger>
+                <SelectContent>
+                  {terms.map((term) => (
+                    <SelectItem key={term.id} value={term.id}>
+                      {term.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        className="rounded-md border border-blue-100 dark:border-blue-800 overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <div className="bg-blue-50 dark:bg-blue-900/50 p-3 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">
+              {students[selectedClass as keyof typeof students].length} élèves
+            </Badge>
+            <div className="flex items-center gap-1 text-sm text-blue-600">
+              <FileText className="h-4 w-4" />
+              <span>Moyenne: {calculateAverage()}</span>
             </div>
           </div>
-          <Table>
-            <TableHeader className="bg-white dark:bg-blue-950">
-              <TableRow>
-                <TableHead className="w-[50px]">No.</TableHead>
-                <TableHead>Nom de l'élève</TableHead>
-                <TableHead className="w-[150px] text-right">
-                  Note (0-20)
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredStudents.length > 0 ? (
-                filteredStudents.map((student, index) => (
+          <div className="flex gap-2">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-blue-600 hover:text-blue-800 hover:bg-blue-100"
+                  >
+                    <Upload className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Importer des notes</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-blue-600 hover:text-blue-800 hover:bg-blue-100"
+                  >
+                    <Download className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Exporter les notes</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        </div>
+        <Table>
+          <TableHeader className="bg-white dark:bg-blue-950">
+            <TableRow>
+              <TableHead className="w-[50px]">No.</TableHead>
+              <TableHead>Nom de l'élève</TableHead>
+              <TableHead className="w-[150px] text-right">
+                Note (0-20)
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {students[selectedClass as keyof typeof students].length > 0 ? (
+              students[selectedClass as keyof typeof students].map(
+                (student, index) => (
                   <TableRow
                     key={student.id}
                     className="transition-colors hover:bg-blue-50 dark:hover:bg-blue-900/20"
@@ -398,20 +485,20 @@ export function GradeEntry() {
                       </div>
                     </TableCell>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={3} className="h-24 text-center">
-                    Aucun élève trouvé dans cette classe.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </motion.div>
-      )}
+                )
+              )
+            ) : (
+              <TableRow>
+                <TableCell colSpan={3} className="h-24 text-center">
+                  Aucun élève trouvé dans cette classe.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </motion.div>
 
-      {selectedClass && filteredStudents.length > 0 && (
+      {students[selectedClass as keyof typeof students].length > 0 && (
         <div className="flex justify-between">
           <Button
             variant="outline"
