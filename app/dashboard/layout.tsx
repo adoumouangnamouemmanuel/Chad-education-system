@@ -1,5 +1,5 @@
+import { DashboardHeader } from "@/components/dashboard/header";
 import Sidebar from "@/components/dashboard/sidebar";
-import { LanguageSwitcher } from "@/components/language-switcher";
 import type { UserRole } from "@/lib/types";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -9,7 +9,9 @@ interface DashboardLayoutProps {
   children: ReactNode;
 }
 
-export default async function DashboardLayout({ children }: DashboardLayoutProps) {
+export default async function DashboardLayout({
+  children,
+}: DashboardLayoutProps) {
   // Get the user role from cookies
   const cookieStore = await cookies();
   const userRole = (cookieStore.get("userRole")?.value as UserRole) || "";
@@ -51,7 +53,8 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
 
       {/* Main content area with its own scrolling */}
       <div className="ml-64 flex-1 overflow-auto">
-        <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6 dark:border-gray-800 dark:bg-gray-800">
+        <DashboardHeader userRole={userRole} />
+        {/* <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6 dark:border-gray-800 dark:bg-gray-800">
           <h1 className="text-xl font-semibold text-gray-800 dark:text-white">
             Système de Gestion Éducative du Tchad
           </h1>
@@ -66,7 +69,7 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
               </div>
             </div>
           </div>
-        </header>
+        </header> */}
         <main className="p-6">{children}</main>
       </div>
     </div>
