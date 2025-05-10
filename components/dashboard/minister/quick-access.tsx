@@ -80,3 +80,7 @@ export function QuickAccessShortcuts() {
     </div>
   );
 }
+
+export function QuickAccess() {
+  return <QuickAccessShortcuts />;
+}
