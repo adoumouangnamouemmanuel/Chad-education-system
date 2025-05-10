@@ -5,9 +5,12 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTheme } from "next-themes";
 import {
   ArrowRight,
   ChevronRight,
+  Moon,
+  Sun,
   Facebook,
   Heart,
   Instagram,
@@ -28,6 +31,7 @@ export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
   const [hoveredStat, setHoveredStat] = useState<number | null>(null);
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
 
   const stats = [
     { title: "Écoles", count: "5,000+", icon: "🏫" },
@@ -70,6 +74,16 @@ export default function Home() {
           </motion.h1>
         </Link>
         <div className="flex items-center gap-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+            aria-label="Toggle theme"
+          >
+            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-amber-500" />
+            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-indigo-400" />
+          </Button>
           <LanguageSwitcher />
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button variant="outline" onClick={() => setShowLogin(true)}>
