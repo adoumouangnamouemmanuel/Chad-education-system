@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react"
+import { motion } from "framer-motion"
 import {
   AreaChart,
   Area,
@@ -18,31 +18,12 @@ import {
   ResponsiveContainer,
   LineChart,
   Line,
-} from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
-import {
-  BarChart3,
-  GraduationCap,
-  TrendingUp,
-  Filter,
-  Download,
-} from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from "recharts"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
+import { BarChart3, GraduationCap, TrendingUp, Filter, Download } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 // Sample data for charts
 const performanceData = [
@@ -53,7 +34,7 @@ const performanceData = [
   { region: "Ouaddaï", success: 55, average: 48, national: 62 },
   { region: "Salamat", success: 52, average: 45, national: 62 },
   { region: "Kanem", success: 48, average: 42, national: 62 },
-];
+]
 
 const enrollmentTrendData = [
   { year: "2018", primary: 420000, secondary: 180000, total: 600000 },
@@ -62,33 +43,29 @@ const enrollmentTrendData = [
   { year: "2021", primary: 450000, secondary: 205000, total: 655000 },
   { year: "2022", primary: 465000, secondary: 215000, total: 680000 },
   { year: "2023", primary: 480000, secondary: 225000, total: 705000 },
-];
+]
 
 const enrollmentTrendDataQuarterly = [
   { quarter: "Q1 2023", primary: 475000, secondary: 220000, total: 695000 },
   { quarter: "Q2 2023", primary: 477000, secondary: 222000, total: 699000 },
   { quarter: "Q3 2023", primary: 479000, secondary: 224000, total: 703000 },
   { quarter: "Q4 2023", primary: 480000, secondary: 225000, total: 705000 },
-];
+]
 
 const teacherQualificationData = [
   { name: "Licence", value: 45 },
   { name: "Master", value: 25 },
   { name: "Doctorat", value: 5 },
   { name: "Diplôme d'État", value: 25 },
-];
+]
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"]
 
 export function RegionalPerformanceChart() {
-  const [chartType, setChartType] = useState("bar");
+  const [chartType, setChartType] = useState("bar")
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <Card className="h-full shadow-lg border-blue-100 dark:border-blue-800">
         <CardHeader>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -97,9 +74,7 @@ export function RegionalPerformanceChart() {
                 <BarChart3 className="h-5 w-5 text-blue-500" />
                 Performance Régionale
               </CardTitle>
-              <CardDescription>
-                Comparaison des taux de réussite par région
-              </CardDescription>
+              <CardDescription>Comparaison des taux de réussite par région</CardDescription>
             </div>
             <div className="flex items-center gap-2">
               <Select value={chartType} onValueChange={setChartType}>
@@ -125,10 +100,7 @@ export function RegionalPerformanceChart() {
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               {chartType === "bar" ? (
-                <BarChart
-                  data={performanceData}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                >
+                <BarChart data={performanceData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="region" />
                   <YAxis />
@@ -167,10 +139,7 @@ export function RegionalPerformanceChart() {
                   />
                 </BarChart>
               ) : (
-                <LineChart
-                  data={performanceData}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                >
+                <LineChart data={performanceData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="region" />
                   <YAxis />
@@ -222,24 +191,19 @@ export function RegionalPerformanceChart() {
         </CardContent>
       </Card>
     </motion.div>
-  );
+  )
 }
 
 export function EnrollmentTrendChart() {
-  const [timeframe, setTimeframe] = useState("yearly");
-  const [chartType, setChartType] = useState("area");
+  const [timeframe, setTimeframe] = useState("yearly")
+  const [chartType, setChartType] = useState("area")
 
   // Select data based on timeframe
-  const data =
-    timeframe === "yearly" ? enrollmentTrendData : enrollmentTrendDataQuarterly;
-  const xAxisKey = timeframe === "yearly" ? "year" : "quarter";
+  const data = timeframe === "yearly" ? enrollmentTrendData : enrollmentTrendDataQuarterly
+  const xAxisKey = timeframe === "yearly" ? "year" : "quarter"
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <Card className="shadow-lg border-blue-100 dark:border-blue-800">
         <CardHeader>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -248,16 +212,10 @@ export function EnrollmentTrendChart() {
                 <TrendingUp className="h-5 w-5 text-blue-500" />
                 Tendances d'inscription
               </CardTitle>
-              <CardDescription>
-                Évolution des inscriptions scolaires
-              </CardDescription>
+              <CardDescription>Évolution des inscriptions scolaires</CardDescription>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <Tabs
-                value={timeframe}
-                onValueChange={setTimeframe}
-                className="w-auto"
-              >
+              <Tabs value={timeframe} onValueChange={setTimeframe} className="w-auto">
                 <TabsList className="h-8">
                   <TabsTrigger value="yearly" className="text-xs px-2 py-1">
                     Annuel
@@ -293,38 +251,15 @@ export function EnrollmentTrendChart() {
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               {chartType === "area" && (
-                <AreaChart
-                  data={data}
-                  margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                >
+                <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <defs>
-                    <linearGradient
-                      id="colorPrimary"
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="1"
-                    >
+                    <linearGradient id="colorPrimary" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#0088FE" stopOpacity={0.8} />
-                      <stop
-                        offset="95%"
-                        stopColor="#0088FE"
-                        stopOpacity={0.1}
-                      />
+                      <stop offset="95%" stopColor="#0088FE" stopOpacity={0.1} />
                     </linearGradient>
-                    <linearGradient
-                      id="colorSecondary"
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="1"
-                    >
+                    <linearGradient id="colorSecondary" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#00C49F" stopOpacity={0.8} />
-                      <stop
-                        offset="95%"
-                        stopColor="#00C49F"
-                        stopOpacity={0.1}
-                      />
+                      <stop offset="95%" stopColor="#00C49F" stopOpacity={0.1} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
@@ -364,10 +299,7 @@ export function EnrollmentTrendChart() {
               )}
 
               {chartType === "line" && (
-                <LineChart
-                  data={data}
-                  margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                >
+                <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
                   <XAxis dataKey={xAxisKey} />
                   <YAxis />
@@ -405,10 +337,7 @@ export function EnrollmentTrendChart() {
               )}
 
               {chartType === "bar" && (
-                <BarChart
-                  data={data}
-                  margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                >
+                <BarChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
                   <XAxis dataKey={xAxisKey} />
                   <YAxis />
@@ -442,30 +371,23 @@ export function EnrollmentTrendChart() {
           </div>
         </CardContent>
         <CardFooter className="border-t p-3 text-xs text-muted-foreground">
-          Source: Ministère de l'Éducation Nationale -{" "}
-          {new Date().getFullYear()}
+          Source: Ministère de l'Éducation Nationale - {new Date().getFullYear()}
         </CardFooter>
       </Card>
     </motion.div>
-  );
+  )
 }
 
 export function TeacherQualificationChart() {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <Card className="h-full shadow-lg border-blue-100 dark:border-blue-800">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <GraduationCap className="h-5 w-5 text-blue-500" />
             Qualifications des Enseignants
           </CardTitle>
-          <CardDescription>
-            Répartition des qualifications du personnel enseignant
-          </CardDescription>
+          <CardDescription>Répartition des qualifications du personnel enseignant</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-80 flex items-center justify-center">
@@ -479,19 +401,12 @@ export function TeacherQualificationChart() {
                   outerRadius={120}
                   fill="#8884d8"
                   dataKey="value"
-                  label={({ name, percent }) =>
-                    `${name}: ${(percent * 100).toFixed(0)}%`
-                  }
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                   animationBegin={0}
                   animationDuration={1500}
                 >
                   {teacherQualificationData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                      stroke="#fff"
-                      strokeWidth={2}
-                    />
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="#fff" strokeWidth={2} />
                   ))}
                 </Pie>
                 <Tooltip
@@ -508,10 +423,10 @@ export function TeacherQualificationChart() {
         </CardContent>
       </Card>
     </motion.div>
-  );
+  )
 }
 
-export function PerformanceCharts({ filters }: { filters: any }) {
+export function PerformanceCharts() {
   return (
     <div className="space-y-6">
       <RegionalPerformanceChart />
@@ -520,5 +435,5 @@ export function PerformanceCharts({ filters }: { filters: any }) {
         <TeacherQualificationChart />
       </div>
     </div>
-  );
+  )
 }

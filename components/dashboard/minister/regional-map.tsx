@@ -180,7 +180,7 @@ export function RegionalMap({ filters }: RegionalMapProps) {
   const activeRegionData = activeRegion ? getRegionById(activeRegion) : null;
 
   return (
-    <Card className="border-none shadow-lg overflow-hidden">
+    <Card className="border-none shadow-lg overflow-hidden pb-20">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-center">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">

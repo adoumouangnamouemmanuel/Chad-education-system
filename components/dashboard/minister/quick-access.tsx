@@ -1,19 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Building2, BarChart3, User, BookOpen } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { BarChart3, BookOpen, Building2 } from "lucide-react";
 import Link from "next/link";
 
 export function QuickAccessShortcuts() {
   const shortcuts = [
-    {
-      title: "Mon profil",
-      icon: <User className="h-5 w-5" />,
-      href: "/dashboard/minister/profile",
-      color: "blue",
-    },
+    // {
+    //   title: "Mon profil",
+    //   icon: <User className="h-5 w-5" />,
+    //   href: "/dashboard/minister/profile",
+    //   color: "blue",
+    // },
     {
       title: "Performance régionale",
       icon: <BarChart3 className="h-5 w-5" />,
@@ -39,7 +39,7 @@ export function QuickAccessShortcuts() {
   return (
     <div>
       <h2 className="text-lg font-semibold mb-3">Accès rapide</h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {shortcuts.map((shortcut, index) => (
           <motion.div
             key={shortcut.title}

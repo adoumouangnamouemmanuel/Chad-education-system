@@ -1,16 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { AlertsNotifications } from "./alerts-notifications";
 import { DashboardFilters } from "./dashboard-filters";
 import { DashboardTabs } from "./dashboard-tabs";
-import { NationalStatistics } from "./national-statistics";
-import { SecondaryStatistics } from "./secondary-statistics";
-import { RegionalMap } from "./regional-map";
 import { EnhancedSchoolsTable } from "./enhanced-schools-table";
-import { AlertsNotifications } from "./alerts-notifications";
+import { NationalStatistics } from "./national-statistics";
 import { PerformanceCharts } from "./performance-charts";
 import { QuickAccess } from "./quick-access";
+import { RegionalMap } from "./regional-map";
+import { SecondaryStatistics } from "./secondary-statistics";
+import { ApprovalsTab } from "./tabs/approvals-tab";
+import { InfrastructureTab } from "./tabs/infrastructure-tab";
 
 export function DashboardLayout() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -52,9 +54,9 @@ export function DashboardLayout() {
             </>
           )}
 
-          {activeTab === "performance" && (
-            <PerformanceCharts filters={filters} />
-          )}
+          {activeTab === "performance" && <PerformanceCharts />}
+          {activeTab === "infrastructure" && <InfrastructureTab />}
+          {activeTab === "approvals" && <ApprovalsTab />}
         </motion.div>
 
         <motion.div
