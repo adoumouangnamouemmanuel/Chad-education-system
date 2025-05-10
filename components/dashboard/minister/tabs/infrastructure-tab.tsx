@@ -304,14 +304,14 @@ export function InfrastructureTab() {
                   value={priorityFilter}
                   onValueChange={setPriorityFilter}
                 >
-                  <SelectTrigger className="w-[140px] h-9">
+                  <SelectTrigger className="w-[100px] h-9">
                     <div className="flex items-center gap-1">
                       <Filter className="h-4 w-4" />
                       <SelectValue placeholder="Priorité" />
                     </div>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Toutes les priorités</SelectItem>
+                    <SelectItem value="all">Toutes</SelectItem>
                     <SelectItem value="Critique">Critique</SelectItem>
                     <SelectItem value="Élevée">Élevée</SelectItem>
                     <SelectItem value="Moyenne">Moyenne</SelectItem>
@@ -325,7 +325,7 @@ export function InfrastructureTab() {
                     </div>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Toutes les régions</SelectItem>
+                    <SelectItem value="all">Toutes</SelectItem>
                     <SelectItem value="Moyen-Chari">Moyen-Chari</SelectItem>
                     <SelectItem value="Kanem">Kanem</SelectItem>
                     <SelectItem value="Mayo-Kebbi">Mayo-Kebbi</SelectItem>

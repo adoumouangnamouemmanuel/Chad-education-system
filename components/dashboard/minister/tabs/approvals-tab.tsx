@@ -138,21 +138,21 @@ export function ApprovalsTab() {
                     </div>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Toutes les priorités</SelectItem>
+                    <SelectItem value="all">Toutes</SelectItem>
                     <SelectItem value="high">Élevée</SelectItem>
                     <SelectItem value="medium">Moyenne</SelectItem>
                     <SelectItem value="low">Basse</SelectItem>
                   </SelectContent>
                 </Select>
                 <Select value={typeFilter} onValueChange={setTypeFilter}>
-                  <SelectTrigger className="w-[140px] h-9">
+                  <SelectTrigger className="w-[123px] h-9">
                     <div className="flex items-center gap-1">
                       <Filter className="h-4 w-4" />
                       <SelectValue placeholder="Type" />
                     </div>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Tous les types</SelectItem>
+                    <SelectItem value="all">Tous</SelectItem>
                     <SelectItem value="infrastructure">
                       Infrastructure
                     </SelectItem>
