@@ -202,7 +202,48 @@ export function EnrollmentTrendChart() {
   const xAxisKey = timeframe === "yearly" ? "year" : "quarter"
 
   let chartElement: React.ReactElement = <div>Loading chart...</div>;
-  if (chartType === "area") {
+  if (chartType === "line") {
+    chartElement = (
+      <LineChart
+        data={data}
+        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+      >
+        <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+        <XAxis dataKey={xAxisKey} />
+        <YAxis />
+        <Tooltip
+          contentStyle={{
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+            border: "1px solid #e2e8f0",
+          }}
+        />
+        <Legend />
+        <Line
+          type="monotone"
+          dataKey="primary"
+          name="Primaire"
+          stroke="#0088FE"
+          strokeWidth={3}
+          dot={{ r: 6, strokeWidth: 2, fill: "white" }}
+          activeDot={{ r: 8 }}
+          animationDuration={1500}
+        />
+        <Line
+          type="monotone"
+          dataKey="secondary"
+          name="Secondaire"
+          stroke="#00C49F"
+          strokeWidth={3}
+          dot={{ r: 6, strokeWidth: 2, fill: "white" }}
+          activeDot={{ r: 8 }}
+          animationDuration={1500}
+          animationBegin={300}
+        />
+      </LineChart>
+    );
+  } else if (chartType === "area") {
     chartElement = (
       <AreaChart
         data={data}
@@ -252,47 +293,6 @@ export function EnrollmentTrendChart() {
           animationBegin={300}
         />
       </AreaChart>
-    );
-  } else if (chartType === "line") {
-    chartElement = (
-      <LineChart
-        data={data}
-        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-        <XAxis dataKey={xAxisKey} />
-        <YAxis />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: "rgba(255, 255, 255, 0.9)",
-            borderRadius: "8px",
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-            border: "1px solid #e2e8f0",
-          }}
-        />
-        <Legend />
-        <Line
-          type="monotone"
-          dataKey="primary"
-          name="Primaire"
-          stroke="#0088FE"
-          strokeWidth={3}
-          dot={{ r: 6, strokeWidth: 2, fill: "white" }}
-          activeDot={{ r: 8 }}
-          animationDuration={1500}
-        />
-        <Line
-          type="monotone"
-          dataKey="secondary"
-          name="Secondaire"
-          stroke="#00C49F"
-          strokeWidth={3}
-          dot={{ r: 6, strokeWidth: 2, fill: "white" }}
-          activeDot={{ r: 8 }}
-          animationDuration={1500}
-          animationBegin={300}
-        />
-      </LineChart>
     );
   } else if (chartType === "bar") {
     chartElement = (
