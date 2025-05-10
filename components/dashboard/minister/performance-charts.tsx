@@ -63,7 +63,6 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"]
 
 export function RegionalPerformanceChart() {
   const [chartType, setChartType] = useState("bar")
-
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <Card className="h-full shadow-lg border-blue-100 dark:border-blue-800">
@@ -202,6 +201,134 @@ export function EnrollmentTrendChart() {
   const data = timeframe === "yearly" ? enrollmentTrendData : enrollmentTrendDataQuarterly
   const xAxisKey = timeframe === "yearly" ? "year" : "quarter"
 
+  let chartElement: React.ReactElement = <div>Loading chart...</div>;
+  if (chartType === "area") {
+    chartElement = (
+      <AreaChart
+        data={data}
+        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+      >
+        <defs>
+          <linearGradient id="colorPrimary" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#0088FE" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#0088FE" stopOpacity={0.1} />
+          </linearGradient>
+          <linearGradient id="colorSecondary" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#00C49F" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#00C49F" stopOpacity={0.1} />
+          </linearGradient>
+        </defs>
+        <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+        <XAxis dataKey={xAxisKey} />
+        <YAxis />
+        <Tooltip
+          contentStyle={{
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+            border: "1px solid #e2e8f0",
+          }}
+        />
+        <Legend />
+        <Area
+          type="monotone"
+          dataKey="primary"
+          name="Primaire"
+          stroke="#0088FE"
+          strokeWidth={2}
+          fillOpacity={1}
+          fill="url(#colorPrimary)"
+          animationDuration={1500}
+        />
+        <Area
+          type="monotone"
+          dataKey="secondary"
+          name="Secondaire"
+          stroke="#00C49F"
+          strokeWidth={2}
+          fillOpacity={1}
+          fill="url(#colorSecondary)"
+          animationDuration={1500}
+          animationBegin={300}
+        />
+      </AreaChart>
+    );
+  } else if (chartType === "line") {
+    chartElement = (
+      <LineChart
+        data={data}
+        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+      >
+        <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+        <XAxis dataKey={xAxisKey} />
+        <YAxis />
+        <Tooltip
+          contentStyle={{
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+            border: "1px solid #e2e8f0",
+          }}
+        />
+        <Legend />
+        <Line
+          type="monotone"
+          dataKey="primary"
+          name="Primaire"
+          stroke="#0088FE"
+          strokeWidth={3}
+          dot={{ r: 6, strokeWidth: 2, fill: "white" }}
+          activeDot={{ r: 8 }}
+          animationDuration={1500}
+        />
+        <Line
+          type="monotone"
+          dataKey="secondary"
+          name="Secondaire"
+          stroke="#00C49F"
+          strokeWidth={3}
+          dot={{ r: 6, strokeWidth: 2, fill: "white" }}
+          activeDot={{ r: 8 }}
+          animationDuration={1500}
+          animationBegin={300}
+        />
+      </LineChart>
+    );
+  } else if (chartType === "bar") {
+    chartElement = (
+      <BarChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+        <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+        <XAxis dataKey={xAxisKey} />
+        <YAxis />
+        <Tooltip
+          contentStyle={{
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+            border: "1px solid #e2e8f0",
+          }}
+        />
+        <Legend />
+        <Bar
+          dataKey="primary"
+          name="Primaire"
+          fill="#0088FE"
+          radius={[4, 4, 0, 0]}
+          animationDuration={1500}
+        />
+        <Bar
+          dataKey="secondary"
+          name="Secondaire"
+          fill="#00C49F"
+          radius={[4, 4, 0, 0]}
+          animationDuration={1500}
+          animationBegin={300}
+        />
+      </BarChart>
+    );
+  }
+
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <Card className="shadow-lg border-blue-100 dark:border-blue-800">
@@ -250,123 +377,7 @@ export function EnrollmentTrendChart() {
         <CardContent>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              {chartType === "area" && (
-                <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorPrimary" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#0088FE" stopOpacity={0.8} />
-                      <stop offset="95%" stopColor="#0088FE" stopOpacity={0.1} />
-                    </linearGradient>
-                    <linearGradient id="colorSecondary" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#00C49F" stopOpacity={0.8} />
-                      <stop offset="95%" stopColor="#00C49F" stopOpacity={0.1} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-                  <XAxis dataKey={xAxisKey} />
-                  <YAxis />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "rgba(255, 255, 255, 0.9)",
-                      borderRadius: "8px",
-                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                      border: "1px solid #e2e8f0",
-                    }}
-                  />
-                  <Legend />
-                  <Area
-                    type="monotone"
-                    dataKey="primary"
-                    name="Primaire"
-                    stroke="#0088FE"
-                    strokeWidth={2}
-                    fillOpacity={1}
-                    fill="url(#colorPrimary)"
-                    animationDuration={1500}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="secondary"
-                    name="Secondaire"
-                    stroke="#00C49F"
-                    strokeWidth={2}
-                    fillOpacity={1}
-                    fill="url(#colorSecondary)"
-                    animationDuration={1500}
-                    animationBegin={300}
-                  />
-                </AreaChart>
-              )}
-
-              {chartType === "line" && (
-                <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-                  <XAxis dataKey={xAxisKey} />
-                  <YAxis />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "rgba(255, 255, 255, 0.9)",
-                      borderRadius: "8px",
-                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                      border: "1px solid #e2e8f0",
-                    }}
-                  />
-                  <Legend />
-                  <Line
-                    type="monotone"
-                    dataKey="primary"
-                    name="Primaire"
-                    stroke="#0088FE"
-                    strokeWidth={3}
-                    dot={{ r: 6, strokeWidth: 2, fill: "white" }}
-                    activeDot={{ r: 8 }}
-                    animationDuration={1500}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="secondary"
-                    name="Secondaire"
-                    stroke="#00C49F"
-                    strokeWidth={3}
-                    dot={{ r: 6, strokeWidth: 2, fill: "white" }}
-                    activeDot={{ r: 8 }}
-                    animationDuration={1500}
-                    animationBegin={300}
-                  />
-                </LineChart>
-              )}
-
-              {chartType === "bar" && (
-                <BarChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-                  <XAxis dataKey={xAxisKey} />
-                  <YAxis />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "rgba(255, 255, 255, 0.9)",
-                      borderRadius: "8px",
-                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                      border: "1px solid #e2e8f0",
-                    }}
-                  />
-                  <Legend />
-                  <Bar
-                    dataKey="primary"
-                    name="Primaire"
-                    fill="#0088FE"
-                    radius={[4, 4, 0, 0]}
-                    animationDuration={1500}
-                  />
-                  <Bar
-                    dataKey="secondary"
-                    name="Secondaire"
-                    fill="#00C49F"
-                    radius={[4, 4, 0, 0]}
-                    animationDuration={1500}
-                    animationBegin={300}
-                  />
-                </BarChart>
-              )}
+              {chartElement}
             </ResponsiveContainer>
           </div>
         </CardContent>
@@ -425,6 +436,9 @@ export function TeacherQualificationChart() {
     </motion.div>
   )
 }
+
+
+
 
 export function PerformanceCharts() {
   return (
