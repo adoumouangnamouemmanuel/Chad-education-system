@@ -42,7 +42,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Sample data for charts
 const performanceData = [
@@ -508,5 +508,17 @@ export function TeacherQualificationChart() {
         </CardContent>
       </Card>
     </motion.div>
+  );
+}
+
+export function PerformanceCharts({ filters }: { filters: any }) {
+  return (
+    <div className="space-y-6">
+      <RegionalPerformanceChart />
+      <EnrollmentTrendChart />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TeacherQualificationChart />
+      </div>
+    </div>
   );
 }
